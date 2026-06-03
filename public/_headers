@@ -1,0 +1,7 @@
+# Prevent indexing on the main Cloudflare Pages subdomain
+https://gradecalcu.pages.dev/*
+  X-Robots-Tag: noindex, nofollow
+
+# Prevent indexing on branch/preview Pages subdomains
+https://*.gradecalcu.pages.dev/*
+  X-Robots-Tag: noindex, nofollow

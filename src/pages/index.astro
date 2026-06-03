@@ -1,0 +1,175 @@
+---
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import WeightedGrade from '../components/WeightedGrade.astro';
+
+// SEO details for the Home Page / Weighted Grade Calculator
+const title = "GradeCalcu - Free Online Weighted Grade & GPA Calculators";
+const description = "Calculate weighted grades, semester GPA, and cumulative CGPA instantly. Free, production-ready, client-side online calculators optimized for speed and Vercel dark mode aesthetics.";
+const keywords = "weighted grade calculator, semester grade calculator, cumulative gpa calculator, CGPA calculator, grade calculator, final exam calculator";
+const canonicalUrl = "https://gradecalcu.com";
+---
+
+<DashboardLayout 
+	title={title} 
+	description={description} 
+	keywords={keywords} 
+	canonicalUrl={canonicalUrl}
+	activeTab="weighted"
+>
+	<!-- Weighted Calculator Widget -->
+	<WeightedGrade />
+
+	<!-- Programmatic SEO Below-the-fold Content -->
+	<div slot="seo-content" class="prose prose-invert max-w-none flex flex-col gap-8 text-vercel-light-gray">
+		<section class="flex flex-col gap-4">
+			<h2 class="text-2xl font-bold tracking-tight text-white">How to Calculate a Weighted Grade Manually</h2>
+			<p class="text-sm leading-relaxed">
+				Unlike a standard unweighted average where all assignments have the same value, a <strong>weighted grade</strong> assigns a specific percentage of importance (weight) to different categories. To determine your weighted grade manually, you must multiply the score you earned in each category by its assigned weight, sum those values up, and then divide by the total sum of all weights.
+			</p>
+			
+			<div class="bg-black/50 border border-vercel-border p-5 rounded font-mono text-xs flex flex-col gap-3 my-2 overflow-x-auto scrollbar-none">
+				<div class="text-white font-bold text-center border-b border-vercel-border pb-2 mb-2">
+					THE MATHEMATICAL FORMULA
+				</div>
+				<div class="text-center text-sm text-white">
+					{"$$Current\\,Weighted\\,Grade = \\frac{\\sum (Score \\times Weight)}{\\sum Weights}$$"}
+				</div>
+				<p class="text-[11px] text-vercel-gray text-center mt-1">
+					Where <em>Score</em> is your percentage grade in a category, and <em>Weight</em> is that category's maximum percentage value.
+				</p>
+			</div>
+		</section>
+
+		<section class="flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Step-by-Step Calculation Example</h3>
+			<p class="text-sm leading-relaxed">
+				Suppose your syllabus outlines the following weight distributions:
+			</p>
+			<ul class="list-disc list-inside text-sm pl-2 flex flex-col gap-1.5">
+				<li><strong>Homework & Quizzes:</strong> Score of 90% (Weight: 25%)</li>
+				<li><strong>Midterm Exam:</strong> Score of 85% (Weight: 25%)</li>
+				<li><strong>Semester Project:</strong> Score of 92% (Weight: 20%)</li>
+				<li><strong>Final Exam:</strong> Remaining weight (30%)</li>
+			</ul>
+			<p class="text-sm leading-relaxed">
+				To calculate your current weighted grade before the final exam (where the sum of entered weights is 70%):
+			</p>
+			<ol class="list-decimal list-inside text-sm pl-2 flex flex-col gap-2">
+				<li>
+					Multiply each score by its weight: 
+					<code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">90 &times; 25 = 2,250</code>, 
+					<code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">85 &times; 25 = 2,125</code>, and 
+					<code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">92 &times; 20 = 1,840</code>.
+				</li>
+				<li>
+					Sum the products: 
+					<code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">2,250 + 2,125 + 1,840 = 6,215</code>.
+				</li>
+				<li>
+					Sum the weights: 
+					<code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">25 + 25 + 20 = 70</code>.
+				</li>
+				<li>
+					Divide the products sum by the weights sum: 
+					<code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">6,215 / 70 = 88.79%</code>.
+				</li>
+			</ol>
+			<p class="text-sm leading-relaxed">
+				Therefore, your current class standing heading into the final exam is <strong>88.79%</strong>.
+			</p>
+		</section>
+
+		<section class="flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Understanding the Final Exam Horizon Predictor</h3>
+			<p class="text-sm leading-relaxed">
+				The "Final Exam Horizon" allows you to forecast what grade you need on your remaining assessment (e.g., the final exam, which has the remaining 30% weight) to secure your desired overall course grade. 
+			</p>
+			<p class="text-sm leading-relaxed">
+				If you want an overall grade of <strong>90%</strong>, the algorithm determines the required final score by solving for the unknown final exam grade:
+			</p>
+			<div class="bg-vercel-card border border-vercel-border p-4 rounded font-mono text-xs leading-relaxed">
+				6,215 + (Final Exam Score &times; 30) = 90 &times; 100 <br />
+				Final Exam Score &times; 30 = 9,000 - 6,215 <br />
+				Final Exam Score &times; 30 = 2,785 <br />
+				Final Exam Score = 2,785 / 30 = <strong class="text-white">92.83%</strong>
+			</div>
+			<p class="text-sm leading-relaxed">
+				You must score a minimum of <strong>92.83%</strong> on the final exam to finish the semester with a 90% overall grade.
+			</p>
+		</section>
+
+		<!-- Crawlable FAQ Schema -->
+		<section class="border-t border-vercel-border/50 pt-8 flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Frequently Asked Questions (FAQ)</h3>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">What is a weighted grade?</h4>
+					<p class="text-xs leading-relaxed">
+						A weighted grade is a grading system where different assignments or evaluation types (homework, tests, finals) are allocated specific percentages of the overall final grade, reflecting their relative importance.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">How does the final exam predictor compute my required grade?</h4>
+					<p class="text-xs leading-relaxed">
+						It subtracts the weighted points you have already earned from your target overall grade points, then divides that remainder by the remaining unallocated weight percentage of your course.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">What if the required final exam score is greater than 100%?</h4>
+					<p class="text-xs leading-relaxed">
+						This indicates that even if you score a perfect 100% on the final exam, you cannot mathematically reach your target overall grade without additional extra credit points.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Is my data secure on GradeCalcu?</h4>
+					<p class="text-xs leading-relaxed">
+						Absolutely. All calculations are executed 100% client-side in your local browser window. None of your course titles, grades, or credits are transmitted to a backend server.
+					</p>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- JSON-LD FAQ Schema for Search Engines -->
+	<script type="application/ld+json" slot="seo-content">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{
+					"@type": "Question",
+					"name": "What is a weighted grade?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "A weighted grade is a grading system where different assignments or evaluation types (homework, tests, finals) are allocated specific percentages of the overall final grade, reflecting their relative importance."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "How does the final exam predictor compute my required grade?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "It subtracts the weighted points you have already earned from your target overall grade points, then divides that remainder by the remaining unallocated weight percentage of your course."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "What if the required final exam score is greater than 100%?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "This indicates that even if you score a perfect 100% on the final exam, you cannot mathematically reach your target overall grade without additional extra credit points."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Is my data secure on GradeCalcu?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Absolutely. All calculations are executed 100% client-side in your local browser window. None of your course titles, grades, or credits are transmitted to a backend server."
+					}
+				}
+			]
+		}
+	</script>
+</DashboardLayout>

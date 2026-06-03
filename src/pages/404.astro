@@ -1,0 +1,52 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+// SEO details for the 404 Page
+const title = "404: Page Not Found | GradeCalcu";
+const description = "The page you are looking for does not exist or has been moved. Return to the GradeCalcu homepage to calculate grades and GPA.";
+---
+
+<Layout title={title} description={description} canonicalUrl="https://gradecalcu.com/404">
+	<main class="flex-grow flex items-center justify-center px-4 py-16">
+		<div class="max-w-md w-full flex flex-col items-center text-center gap-6">
+			<!-- Large status indicator -->
+			<div class="relative flex items-center justify-center">
+				<span class="text-8xl md:text-9xl font-mono font-bold tracking-tighter text-white opacity-25 select-none animate-pulse">
+					404
+				</span>
+				<div class="absolute text-xl font-bold tracking-tight text-white font-sans mt-2">
+					LOST IN SPACE
+				</div>
+			</div>
+
+			<!-- Message Card -->
+			<div class="vercel-card p-6 sm:p-8 flex flex-col gap-4 w-full border border-vercel-border">
+				<h1 class="text-xl font-extrabold tracking-tight text-white">
+					Page Not Found
+				</h1>
+				<p class="text-xs sm:text-sm text-vercel-light-gray leading-relaxed">
+					The page you are looking for might have been removed, had its name changed, or is temporarily unavailable.
+				</p>
+				
+				<div class="h-px bg-vercel-border my-2"></div>
+				
+				<div class="flex flex-col sm:flex-row gap-3 justify-center">
+					<a href="/" class="vercel-button text-xs py-2 px-4 inline-flex items-center justify-center gap-2">
+						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+						</svg>
+						Return Home
+					</a>
+					<a href="/weighted" class="vercel-button-secondary text-xs py-2 px-4 inline-flex items-center justify-center gap-2">
+						Grade Calculators
+					</a>
+				</div>
+			</div>
+
+			<!-- Footer Brand -->
+			<div class="text-[10px] text-vercel-gray font-mono">
+				GradeCalcu.com &copy; 2026
+			</div>
+		</div>
+	</main>
+</Layout>

@@ -1,0 +1,71 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title?: string;
+	description?: string;
+	keywords?: string;
+	canonicalUrl?: string;
+}
+
+const {
+	title = "GradeCalcu - Ultra-Fast Online Grade Calculators",
+	description = "Calculate weighted grades, semester GPA, and cumulative CGPA instantly. Free, production-ready, client-side online calculators optimized for speed.",
+	keywords = "weighted grade calculator, semester grade calculator, cumulative gpa calculator, CGPA calculator",
+	canonicalUrl = "https://gradecalcu.com",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		
+		<!-- Google tag (gtag.js) -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=G-4MYWVH2J39"></script>
+		<script is:inline>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+
+			gtag('config', 'G-4MYWVH2J39');
+		</script>
+		
+		<!-- SEO Meta Tags -->
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<meta name="keywords" content={keywords} />
+		<link rel="canonical" href={canonicalUrl} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonicalUrl} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		
+		<!-- Twitter -->
+		<meta property="twitter:card" content="summary_large_image" />
+		<meta property="twitter:url" content={canonicalUrl} />
+		<meta property="twitter:title" content={title} />
+		<meta property="twitter:description" content={description} />
+		
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
+		
+		<style>
+			/* Set font families globally based on theme variables */
+			:root {
+				--font-sans: 'Plus Jakarta Sans', "Geist Sans", "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+				--font-mono: 'JetBrains Mono', "Geist Mono", "SFMono-Regular", Consolas, monospace;
+			}
+		</style>
+	</head>
+	<body class="bg-vercel-black text-white bg-grid-dots font-sans min-h-screen flex flex-col selection:bg-white selection:text-black">
+		<slot />
+	</body>
+</html>

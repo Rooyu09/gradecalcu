@@ -1,0 +1,376 @@
+---
+// Semester Grade Calculator Component
+---
+
+<div class="flex flex-col lg:flex-row gap-8 items-start">
+	<!-- Calculator Inputs Matrix -->
+	<div class="w-full lg:w-3/5 flex flex-col gap-6">
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-5">
+			<!-- Model Selector Toggle -->
+			<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+				<h2 class="text-xl font-bold tracking-tight text-white">Semester Breakdown</h2>
+				
+				<!-- Pill Switcher Toggle -->
+				<div class="flex bg-black border border-vercel-border p-1 rounded" role="radiogroup" aria-label="Semester model selection">
+					<button 
+						id="model-quarter" 
+						type="button"
+						class="px-3 py-1.5 text-xs font-semibold rounded bg-white text-black transition-all cursor-pointer"
+						role="radio"
+						aria-checked="true"
+					>
+						2 Quarters + Exam
+					</button>
+					<button 
+						id="model-term" 
+						type="button"
+						class="px-3 py-1.5 text-xs font-semibold rounded text-vercel-gray hover:text-white transition-all cursor-pointer"
+						role="radio"
+						aria-checked="false"
+					>
+						1 Full Term + Exam
+					</button>
+				</div>
+			</div>
+
+			<!-- Dynamic Inputs Grid -->
+			<div class="overflow-x-auto scrollbar-none">
+				<table class="w-full text-left border-collapse">
+					<thead>
+						<tr class="border-b border-vercel-border text-xs text-vercel-gray uppercase font-mono tracking-wider">
+							<th class="pb-3 font-medium">Assessment Term</th>
+							<th class="pb-3 font-medium w-24 sm:w-36">Grade (%)</th>
+							<th class="pb-3 font-medium w-24 sm:w-36">Weight (%)</th>
+						</tr>
+					</thead>
+					<tbody id="semester-table-body" class="divide-y divide-vercel-border/50">
+						<!-- Row: Quarter 1 (Quarter Split Model Only) -->
+						<tr class="quarter-row table-row-item">
+							<td class="py-4 pr-2 sm:pr-4">
+								<span class="text-sm font-semibold text-white">Quarter 1</span>
+								<p class="text-[10px] text-vercel-gray">First half of the term</p>
+							</td>
+							<td class="py-4 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									id="input-q1-grade"
+									placeholder="90" 
+									min="0" 
+									max="200" 
+									step="any"
+									class="w-full vercel-input row-grade-val py-1.5 px-2 sm:px-3 text-right"
+								/>
+							</td>
+							<td class="py-4">
+								<input 
+									type="number" 
+									id="input-q1-weight"
+									placeholder="40" 
+									min="0" 
+									max="100" 
+									step="any"
+									class="w-full vercel-input row-weight-val py-1.5 px-2 sm:px-3 text-right"
+								/>
+							</td>
+						</tr>
+
+						<!-- Row: Quarter 2 (Quarter Split Model Only) -->
+						<tr class="quarter-row table-row-item">
+							<td class="py-4 pr-2 sm:pr-4">
+								<span class="text-sm font-semibold text-white">Quarter 2</span>
+								<p class="text-[10px] text-vercel-gray">Second half of the term</p>
+							</td>
+							<td class="py-4 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									id="input-q2-grade"
+									placeholder="85" 
+									min="0" 
+									max="200" 
+									step="any"
+									class="w-full vercel-input row-grade-val py-1.5 px-2 sm:px-3 text-right"
+								/>
+							</td>
+							<td class="py-4">
+								<input 
+									type="number" 
+									id="input-q2-weight"
+									placeholder="40" 
+									min="0" 
+									max="100" 
+									step="any"
+									class="w-full vercel-input row-weight-val py-1.5 px-2 sm:px-3 text-right"
+								/>
+							</td>
+						</tr>
+
+						<!-- Row: Full Term (Full Term Model Only - Hidden by default) -->
+						<tr class="term-row table-row-item hidden">
+							<td class="py-4 pr-2 sm:pr-4">
+								<span class="text-sm font-semibold text-white">Full Term Grade</span>
+								<p class="text-[10px] text-vercel-gray">Pre-exam term average</p>
+							</td>
+							<td class="py-4 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									id="input-term-grade"
+									placeholder="88" 
+									min="0" 
+									max="200" 
+									step="any"
+									class="w-full vercel-input row-grade-val py-1.5 px-2 sm:px-3 text-right"
+								/>
+							</td>
+							<td class="py-4">
+								<input 
+									type="number" 
+									id="input-term-weight"
+									placeholder="80" 
+									min="0" 
+									max="100" 
+									step="any"
+									class="w-full vercel-input row-weight-val py-1.5 px-2 sm:px-3 text-right"
+								/>
+							</td>
+						</tr>
+
+						<!-- Row: Final Exam (Always Visible) -->
+						<tr class="exam-row table-row-item">
+							<td class="py-4 pr-2 sm:pr-4">
+								<span class="text-sm font-semibold text-white">Final Exam</span>
+								<p class="text-[10px] text-vercel-gray">End-of-semester exam</p>
+							</td>
+							<td class="py-4 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									id="input-exam-grade"
+									placeholder="92" 
+									min="0" 
+									max="200" 
+									step="any"
+									class="w-full vercel-input row-grade-val py-1.5 px-2 sm:px-3 text-right"
+								/>
+							</td>
+							<td class="py-4">
+								<input 
+									type="number" 
+									id="input-exam-weight"
+									placeholder="20" 
+									min="0" 
+									max="100" 
+									step="any"
+									class="w-full vercel-input row-weight-val py-1.5 px-2 sm:px-3 text-right"
+								/>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+			<!-- Real-Time Weight Error Alert System -->
+			<div 
+				id="weight-warning-alert" 
+				class="hidden text-red-400 bg-red-950/30 font-mono text-xs border border-red-900/40 p-3 rounded transition-all duration-200"
+				role="alert"
+			>
+				Warning: Total weights must equal exactly 100%. Current: <span id="weight-current-pct">100</span>%
+			</div>
+		</div>
+	</div>
+
+	<!-- Output Analytics Panel -->
+	<div class="w-full lg:w-2/5 flex flex-col gap-6">
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-5">
+			<h2 class="text-xs uppercase font-mono tracking-widest text-vercel-gray">Semester Grade Calculations</h2>
+			
+			<div class="flex flex-col gap-4">
+				<!-- Overall Grade Output -->
+				<div class="flex flex-col gap-1">
+					<span class="text-xs text-vercel-light-gray font-medium">Computed Semester Grade</span>
+					<div class="flex items-baseline gap-2">
+						<span id="semester-grade-output" class="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-white">88.40</span>
+						<span class="text-xl font-mono text-vercel-gray">%</span>
+					</div>
+					<span id="grade-equivalent-output" class="text-sm font-semibold text-white/90 font-mono">Letter Grade: B+</span>
+				</div>
+				
+				<!-- Divider -->
+				<div class="h-px bg-vercel-border"></div>
+
+				<!-- Distribution Details -->
+				<div class="grid grid-cols-2 gap-4">
+					<div class="flex flex-col gap-0.5">
+						<span class="text-[11px] text-vercel-light-gray font-medium">Accumulated Weight</span>
+						<span id="semester-weight-output" class="text-lg font-mono font-semibold text-white">100.00%</span>
+					</div>
+					<div class="flex flex-col gap-0.5">
+						<span class="text-[11px] text-vercel-light-gray font-medium">Calculation Model</span>
+						<span id="semester-model-output" class="text-xs font-semibold text-white font-mono uppercase tracking-wider mt-1">QUARTER SPLIT</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Quick Info Card -->
+		<div class="vercel-card p-4 sm:p-6 border border-vercel-border flex flex-col gap-2">
+			<h3 class="text-xs uppercase font-mono tracking-wider text-vercel-gray">Performance Guidelines</h3>
+			<p class="text-xs text-vercel-light-gray leading-relaxed">
+				Enter your scores. If an input is left blank, the calculator automatically falls back to its default baseline values (indicated by the placeholders).
+			</p>
+		</div>
+	</div>
+</div>
+
+<script>
+	function initSemesterGradeCalculator() {
+		// Model Switches
+		const btnQuarter = document.getElementById('model-quarter');
+		const btnTerm = document.getElementById('model-term');
+		
+		// Row Categories
+		const tableBody = document.getElementById('semester-table-body');
+		const quarterRows = tableBody?.querySelectorAll('.quarter-row');
+		const termRows = tableBody?.querySelectorAll('.term-row');
+
+		// Inputs
+		const q1Grade = document.getElementById('input-q1-grade') as HTMLInputElement;
+		const q1Weight = document.getElementById('input-q1-weight') as HTMLInputElement;
+		const q2Grade = document.getElementById('input-q2-grade') as HTMLInputElement;
+		const q2Weight = document.getElementById('input-q2-weight') as HTMLInputElement;
+		const termGrade = document.getElementById('input-term-grade') as HTMLInputElement;
+		const termWeight = document.getElementById('input-term-weight') as HTMLInputElement;
+		const examGrade = document.getElementById('input-exam-grade') as HTMLInputElement;
+		const examWeight = document.getElementById('input-exam-weight') as HTMLInputElement;
+
+		// Outputs & Alerts
+		const warningAlert = document.getElementById('weight-warning-alert');
+		const currentPctOutput = document.getElementById('weight-current-pct');
+		const gradeOutput = document.getElementById('semester-grade-output');
+		const letterOutput = document.getElementById('grade-equivalent-output');
+		const totalWeightOutput = document.getElementById('semester-weight-output');
+		const modelOutput = document.getElementById('semester-model-output');
+
+		if (!tableBody || !gradeOutput || !totalWeightOutput) return;
+
+		let currentModel = 'quarter'; // 'quarter' or 'term'
+
+		// Switch Model Click Handlers
+		btnQuarter?.addEventListener('click', () => {
+			if (currentModel === 'quarter') return;
+			currentModel = 'quarter';
+
+			// Toggle active buttons styles
+			btnQuarter.classList.add('bg-white', 'text-black');
+			btnQuarter.classList.remove('text-vercel-gray', 'hover:text-white');
+			btnQuarter.setAttribute('aria-checked', 'true');
+
+			btnTerm?.classList.remove('bg-white', 'text-black');
+			btnTerm?.classList.add('text-vercel-gray', 'hover:text-white');
+			btnTerm?.setAttribute('aria-checked', 'false');
+
+			// Toggle row views
+			quarterRows?.forEach(row => row.classList.remove('hidden'));
+			termRows?.forEach(row => row.classList.add('hidden'));
+
+			modelOutput!.textContent = 'QUARTER SPLIT';
+			calculate();
+		});
+
+		btnTerm?.addEventListener('click', () => {
+			if (currentModel === 'term') return;
+			currentModel = 'term';
+
+			btnTerm.classList.add('bg-white', 'text-black');
+			btnTerm.classList.remove('text-vercel-gray', 'hover:text-white');
+			btnTerm.setAttribute('aria-checked', 'true');
+
+			btnQuarter?.classList.remove('bg-white', 'text-black');
+			btnQuarter?.classList.add('text-vercel-gray', 'hover:text-white');
+			btnQuarter?.setAttribute('aria-checked', 'false');
+
+			quarterRows?.forEach(row => row.classList.add('hidden'));
+			termRows?.forEach(row => row.classList.remove('hidden'));
+
+			modelOutput!.textContent = 'FULL TERM';
+			calculate();
+		});
+
+		// Map numerical grades to standard letter equivalents
+		function getLetterGrade(pct: number): string {
+			if (pct >= 93) return 'A';
+			if (pct >= 90) return 'A-';
+			if (pct >= 87) return 'B+';
+			if (pct >= 83) return 'B';
+			if (pct >= 80) return 'B-';
+			if (pct >= 77) return 'C+';
+			if (pct >= 73) return 'C';
+			if (pct >= 70) return 'C-';
+			if (pct >= 67) return 'D+';
+			if (pct >= 60) return 'D';
+			return 'F';
+		}
+
+		// Calculate logic
+		function calculate() {
+			let totalWeight = 0;
+			let weightedPointsSum = 0;
+
+			// Function to safely grab input values or fallback to placeholder values
+			const getValue = (input: HTMLInputElement): number => {
+				const val = parseFloat(input.value);
+				if (!isNaN(val)) return val;
+				// Fallback to placeholder value
+				const placeholderVal = parseFloat(input.getAttribute('placeholder') || '0');
+				return placeholderVal;
+			};
+
+			if (currentModel === 'quarter') {
+				const q1G = getValue(q1Grade);
+				const q1W = getValue(q1Weight);
+				const q2G = getValue(q2Grade);
+				const q2W = getValue(q2Weight);
+				const exG = getValue(examGrade);
+				const exW = getValue(examWeight);
+
+				totalWeight = q1W + q2W + exW;
+				weightedPointsSum = (q1G * q1W) + (q2G * q2W) + (exG * exW);
+			} else {
+				const termG = getValue(termGrade);
+				const termW = getValue(termWeight);
+				const exG = getValue(examGrade);
+				const exW = getValue(examWeight);
+
+				totalWeight = termW + exW;
+				weightedPointsSum = (termG * termW) + (exG * exW);
+			}
+
+			// Grade Calculation
+			const finalGrade = totalWeight > 0 ? (weightedPointsSum / totalWeight) : 0;
+
+			// Update output indicators
+			gradeOutput!.textContent = finalGrade.toFixed(2);
+			letterOutput!.textContent = `Letter Grade: ${getLetterGrade(finalGrade)}`;
+			totalWeightOutput!.textContent = totalWeight.toFixed(2) + "%";
+
+			// Warning Banner Check: must add up to exactly 100%
+			// We can round to 2 decimal places to avoid standard JS floating point comparison bugs
+			const roundedWeight = Math.round(totalWeight * 100) / 100;
+			if (roundedWeight !== 100) {
+				currentPctOutput!.textContent = roundedWeight.toString();
+				warningAlert?.classList.remove('hidden');
+			} else {
+				warningAlert?.classList.add('hidden');
+			}
+		}
+
+		// Add event listeners on input change
+		tableBody.addEventListener('input', calculate);
+		tableBody.addEventListener('change', calculate);
+
+		// Run initial calculations
+		calculate();
+	}
+
+	initSemesterGradeCalculator();
+	document.addEventListener('astro:page-load', initSemesterGradeCalculator);
+</script>

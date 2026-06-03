@@ -1,0 +1,158 @@
+---
+import Layout from './Layout.astro';
+
+interface Props {
+	title?: string;
+	description?: string;
+	keywords?: string;
+	canonicalUrl?: string;
+	activeTab?: 'weighted' | 'semester' | 'cgpa' | 'percentage-to-cgpa' | 'none';
+}
+
+const { title, description, keywords, canonicalUrl, activeTab = 'none' } = Astro.props;
+---
+
+<Layout title={title} description={description} keywords={keywords} canonicalUrl={canonicalUrl}>
+	<!-- Header -->
+	<header class="border-b border-vercel-border bg-vercel-black/50 backdrop-blur-md sticky top-0 z-50">
+		<div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+			<!-- Logo/Brand -->
+			<a href="/" class="flex items-center gap-2.5 group">
+				<div class="w-6 h-6 rounded bg-white flex items-center justify-center font-bold text-black text-sm tracking-tighter transition-transform group-hover:scale-105">
+					G
+				</div>
+				<span class="font-extrabold text-lg tracking-tighter text-white">
+					Grade<span class="text-vercel-gray group-hover:text-white transition-colors">Calcu</span>
+				</span>
+			</a>
+			
+			<!-- Badges/Stats -->
+			<div class="flex items-center gap-4">
+				<div class="hidden sm:flex items-center gap-1.5 text-xs text-vercel-light-gray font-mono bg-vercel-card border border-vercel-border px-2.5 py-1 rounded">
+					<span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+					100% Client-Side
+				</div>
+				<div class="hidden min-[400px]:flex items-center gap-1.5 text-xs text-vercel-light-gray font-mono bg-vercel-card border border-vercel-border px-2.5 py-1 rounded">
+					<svg class="w-3.5 h-3.5 text-yellow-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
+					</svg>
+					100/100 Performance
+				</div>
+			</div>
+		</div>
+	</header>
+
+	<!-- Main Body Wrapper -->
+	<main class="flex-grow max-w-5xl w-full mx-auto px-4 py-8 md:py-12 flex flex-col gap-8">
+		
+		<!-- Tab Dashboard Header -->
+		<div class="flex flex-col gap-6">
+			<!-- Title Section -->
+			<div class="flex flex-col gap-2">
+				<h1 class="text-3xl md:text-5xl font-extrabold tracking-tighter text-white">
+					Professional Grade Hub
+				</h1>
+				<p class="text-sm md:text-base text-vercel-light-gray max-w-2xl">
+					Compute your academic performance instantly. Local processing protects your privacy and guarantees zero delay.
+				</p>
+			</div>
+
+			<!-- Tab Navigation -->
+			<div class="border-b border-vercel-border flex overflow-x-auto whitespace-nowrap scrollbar-none">
+				<nav class="flex gap-4 sm:gap-8 min-w-max pb-0" aria-label="Calculator Tabs">
+					<!-- Tab 1: Weighted Grade -->
+					<a
+						id="tab-weighted"
+						href="/weighted"
+						class={`pb-3 text-sm font-medium border-b-2 whitespace-nowrap transition-all duration-200 ${
+							activeTab === 'weighted'
+								? 'border-white text-white font-semibold active-tab'
+								: 'border-transparent text-vercel-gray hover:text-white'
+						}`}
+					>
+						Weighted Grade
+					</a>
+
+					<!-- Tab 2: Semester Grade -->
+					<a
+						id="tab-semester"
+						href="/semester-grade"
+						class={`pb-3 text-sm font-medium border-b-2 whitespace-nowrap transition-all duration-200 ${
+							activeTab === 'semester'
+								? 'border-white text-white font-semibold active-tab'
+								: 'border-transparent text-vercel-gray hover:text-white'
+						}`}
+					>
+						Semester Grade
+					</a>
+
+					<!-- Tab 3: GPA & CGPA Hub -->
+					<a
+						id="tab-cgpa"
+						href="/gpa-cgpa-hub"
+						class={`pb-3 text-sm font-medium border-b-2 whitespace-nowrap transition-all duration-200 ${
+							activeTab === 'cgpa'
+								? 'border-white text-white font-semibold active-tab'
+								: 'border-transparent text-vercel-gray hover:text-white'
+						}`}
+					>
+						GPA & CGPA Hub
+					</a>
+
+					<!-- Tab 4: Percentage to CGPA -->
+					<a
+						id="tab-percentage-to-cgpa"
+						href="/in/percentage-to-cgpa/"
+						class={`pb-3 text-sm font-medium border-b-2 whitespace-nowrap transition-all duration-200 ${
+							activeTab === 'percentage-to-cgpa'
+								? 'border-white text-white font-semibold active-tab'
+								: 'border-transparent text-vercel-gray hover:text-white'
+						}`}
+					>
+						CGPA to %
+					</a>
+				</nav>
+			</div>
+		</div>
+
+		<!-- Calculator Interactive Slot -->
+		<div class="w-full">
+			<slot />
+		</div>
+
+		<!-- SEO Content Below-the-fold Slot -->
+		<div class="border-t border-vercel-border pt-12 mt-4">
+			<slot name="seo-content" />
+		</div>
+	</main>
+
+	<!-- Footer -->
+	<footer class="border-t border-vercel-border bg-vercel-black py-8 text-xs text-vercel-gray">
+		<div class="max-w-5xl mx-auto px-4 flex flex-col md:flex-row items-center justify-between gap-4">
+			<div class="flex flex-col gap-1 text-center md:text-left">
+				<p class="font-semibold text-white">GradeCalcu.com &copy; 2026</p>
+				<p>Your data never leaves your browser. All computations run locally.</p>
+			</div>
+			
+			<div class="flex items-center gap-6 flex-wrap justify-center md:justify-end">
+				<a href="/weighted" class="hover:text-white transition-colors">Weighted Grade</a>
+				<a href="/semester-grade" class="hover:text-white transition-colors">Semester Grade</a>
+				<a href="/gpa-cgpa-hub" class="hover:text-white transition-colors">GPA & CGPA Hub</a>
+				<a href="/in/percentage-to-cgpa" class="hover:text-white transition-colors">Percentage to CGPA</a>
+			</div>
+		</div>
+	</footer>
+</Layout>
+
+<script>
+	function scrollActiveTabIntoView() {
+		const activeTab = document.querySelector('.active-tab');
+		if (activeTab) {
+			activeTab.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+		}
+	}
+
+	// Support both standard DOM loads and Astro View Transitions page-loads
+	document.addEventListener('DOMContentLoaded', scrollActiveTabIntoView);
+	document.addEventListener('astro:page-load', scrollActiveTabIntoView);
+</script>

@@ -1,0 +1,198 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+import PercentageToCgpa from '../../components/PercentageToCgpa.astro';
+
+// SEO details for the Regional Percentage to CGPA Converter
+const title = "CGPA to Percentage Calculator | Percentage to CGPA - GradeCalcu";
+const description = "Convert school or university percentage to CGPA instantly. Supports CBSE 9.5 factor, VTU, SPPU, and standard 10-point Indian and global grading systems.";
+const keywords = "percentage to cgpa, cbse percentage to cgpa, vtu percentage to cgpa, convert percentage to cgpa, 10 point cgpa scale, sppu percentage to cgpa, cgpa conversion";
+const canonicalUrl = "https://gradecalcu.com/in/percentage-to-cgpa";
+---
+
+<DashboardLayout 
+	title={title} 
+	description={description} 
+	keywords={keywords} 
+	canonicalUrl={canonicalUrl}
+	activeTab="percentage-to-cgpa"
+>
+	<!-- Percentage to CGPA Converter Widget -->
+	<PercentageToCgpa />
+
+	<!-- Programmatic SEO Below-the-fold Content -->
+	<div slot="seo-content" id="regional-seo-content" class="prose prose-invert max-w-none flex flex-col gap-8 text-vercel-light-gray">
+		<section class="flex flex-col gap-4">
+			<h2 class="text-2xl font-bold tracking-tight text-white">How to Convert CBSE Percentage to CGPA</h2>
+			<p class="text-sm leading-relaxed">
+				For students under the Central Board of Secondary Education (CBSE) in India, grades are awarded on a 10-point grading scale. To translate your overall percentage into a Cumulative Grade Point Average (CGPA), the board has prescribed a standardized formula utilizing a <strong>9.5 conversion factor</strong>.
+			</p>
+			<p class="text-sm leading-relaxed">
+				This factor was established by analyzing the historical academic performance distribution of students. It maps the percentage marks back to a representative grade point score.
+			</p>
+			
+			<div class="bg-black/50 border border-vercel-border p-5 rounded font-mono text-xs flex flex-col gap-3 my-2 text-center text-white overflow-x-auto scrollbar-none">
+				<div class="text-white font-bold border-b border-vercel-border pb-2 mb-2">
+					CBSE PERCENTAGE TO CGPA FORMULA
+				</div>
+				{"$$CGPA = \\frac{Percentage}{9.5}$$"}
+			</div>
+			
+			<h3 class="text-lg font-bold text-white tracking-tight mt-4">Step-by-Step Calculation Example</h3>
+			<p class="text-sm leading-relaxed">
+				If you secured an overall percentage of <strong>85.5%</strong> in your board exams, you can compute your CGPA as follows:
+			</p>
+			<div class="bg-vercel-card border border-vercel-border p-4 rounded font-mono text-xs leading-relaxed">
+				CGPA = 85.5 / 9.5 = <strong class="text-white">9.00</strong>
+			</div>
+			<p class="text-sm leading-relaxed">
+				Conversely, if you need to find your percentage from a given CGPA, multiply the CGPA by 9.5 (e.g., 9.0 CGPA &times; 9.5 = 85.5%).
+			</p>
+		</section>
+
+		<section class="flex flex-col gap-4">
+			<h2 class="text-2xl font-bold tracking-tight text-white">VTU and SPPU Percentage to 10-Point CGPA Scale</h2>
+			<p class="text-sm leading-relaxed">
+				Many Indian technical universities, such as <strong>Visvesvaraya Technological University (VTU)</strong> and <strong>Savitribai Phule Pune University (SPPU)</strong>, assess student performance using a standard linear 10-point scale. Unlike CBSE, these systems translate percentages to CGPA directly by dividing by 10.
+			</p>
+			
+			<div class="bg-black/50 border border-vercel-border p-5 rounded font-mono text-xs flex flex-col gap-3 my-2 text-center text-white overflow-x-auto scrollbar-none">
+				<div class="text-white font-bold border-b border-vercel-border pb-2 mb-2">
+					STANDARD 10-POINT LINEAR FORMULA
+				</div>
+				{"$$CGPA = \\frac{Percentage}{10}$$"}
+			</div>
+
+			<h3 class="text-lg font-bold text-white tracking-tight mt-4">VTU and International Universidades Alignment</h3>
+			<p class="text-sm leading-relaxed">
+				A direct division by 10 is standard for many autonomous engineering colleges in India, as well as global regions like Spain, Mexico, and certain parts of Europe. For example, if a student secures <strong>76.0%</strong>:
+			</p>
+			<div class="bg-vercel-card border border-vercel-border p-4 rounded font-mono text-xs leading-relaxed">
+				CGPA = 76.0 / 10.0 = <strong class="text-white">7.60</strong>
+			</div>
+			<p class="text-sm leading-relaxed">
+				This standard 10-point CGPA is widely recognized by employers and graduate admissions offices worldwide for ease of credit transfer.
+			</p>
+		</section>
+
+		<section class="flex flex-col gap-4">
+			<h2 class="text-2xl font-bold tracking-tight text-white">How to Convert CGPA to Percentage (10-Point Scale)</h2>
+			<p class="text-sm leading-relaxed">
+				To perform the reverse calculation and convert your CGPA back to an equivalent marks percentage, you multiply your score by the corresponding factor. This is highly useful for job applications and higher education admissions requiring percentage inputs.
+			</p>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-2">
+				<div class="bg-black/50 border border-vercel-border p-4 rounded flex flex-col gap-2">
+					<div class="text-white font-bold font-mono text-[10px] uppercase tracking-wider">
+						CBSE Formula (CGPA to Percentage)
+					</div>
+					<div class="font-mono text-white text-sm">
+						Percentage = Math.min(100.0, CGPA &times; 9.5)
+					</div>
+					<p class="text-[11px] text-vercel-light-gray leading-relaxed">
+						Multiply your CGPA by 9.5 to calculate the overall percentage. For example: 9.0 CGPA &times; 9.5 = 85.50%.
+					</p>
+				</div>
+				
+				<div class="bg-black/50 border border-vercel-border p-4 rounded flex flex-col gap-2">
+					<div class="text-white font-bold font-mono text-[10px] uppercase tracking-wider">
+						Linear 10-Point Formula (VTU/SPPU/Global)
+					</div>
+					<div class="font-mono text-white text-sm">
+						Percentage = Math.min(100.0, CGPA &times; 10.0)
+					</div>
+					<p class="text-[11px] text-vercel-light-gray leading-relaxed">
+						Multiply your CGPA by 10.0 to get your percentage equivalent. For example: 8.5 CGPA &times; 10.0 = 85.00%.
+					</p>
+				</div>
+			</div>
+		</section>
+
+		<!-- Crawlable FAQ Schema -->
+		<section class="border-t border-vercel-border/50 pt-8 flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Frequently Asked Questions (FAQ)</h3>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Why does CBSE use a 9.5 factor instead of 10?</h4>
+					<p class="text-xs leading-relaxed">
+						CBSE uses the 9.5 factor to match the percentage with the average of actual board exam marks distributions. This ensures the CGPA is an accurate indicator of a student's standing.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">How do I convert CGPA back to percentage?</h4>
+					<p class="text-xs leading-relaxed">
+						For CBSE, multiply your CGPA by 9.5 (e.g., 9.5 &times; 9.5 = 90.25%). For standard linear 10-point scales (VTU, SPPU), multiply your CGPA by 10.0 (e.g., 8.0 &times; 10.0 = 80%).
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">What is a good CGPA on a 10-point scale?</h4>
+					<p class="text-xs leading-relaxed">
+						A CGPA above 8.0 is generally considered excellent, equivalent to a First Class with Distinction. A CGPA between 6.5 and 8.0 represents a solid First Class standing in most Indian universities.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Does VTU use the CBSE 9.5 conversion factor?</h4>
+					<p class="text-xs leading-relaxed">
+						No, VTU and standard state technical universities employ a direct linear 10-point scale (Percentage / 10) rather than the CBSE 9.5 division factor.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Does the converter process data securely?</h4>
+					<p class="text-xs leading-relaxed">
+						Yes, all calculations run in your local web browser using JavaScript. No details about your grades or percentages are sent to servers.
+					</p>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- JSON-LD FAQ Schema for Search Engines -->
+	<script type="application/ld+json" slot="seo-content">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{
+					"@type": "Question",
+					"name": "Why does CBSE use a 9.5 factor instead of 10?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "CBSE uses the 9.5 factor to match the percentage with the average of actual board exam marks distributions. This ensures the CGPA is an accurate indicator of a student's standing."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "How do I convert CGPA back to percentage?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "For CBSE, multiply your CGPA by 9.5. For standard linear 10-point scales (VTU, SPPU), multiply your CGPA by 10.0."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "What is a good CGPA on a 10-point scale?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "A CGPA above 8.0 is generally considered excellent, equivalent to a First Class with Distinction. A CGPA between 6.5 and 8.0 represents a solid First Class standing in most Indian universities."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Does VTU use the CBSE 9.5 conversion factor?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "No, VTU and standard state technical universities employ a direct linear 10-point scale (Percentage / 10) rather than the CBSE 9.5 division factor."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Does the converter process data securely?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Yes, all calculations run in your local web browser using JavaScript. No details about your grades or percentages are sent to servers."
+					}
+				}
+			]
+		}
+	</script>
+</DashboardLayout>

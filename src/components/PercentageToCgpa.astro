@@ -1,0 +1,417 @@
+---
+// Percentage to CGPA Converter Component
+---
+
+<div class="flex flex-col lg:flex-row gap-8 items-start">
+	<!-- Inputs: Left Column -->
+	<div class="w-full lg:w-3/5 flex flex-col gap-6">
+		<!-- Main Input Card -->
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-6">
+			<!-- Header -->
+			<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+				<div>
+					<h2 id="card-main-title" class="text-xl font-bold tracking-tight text-white mb-1">Percentage & CGPA Converter</h2>
+					<p class="text-xs text-vercel-light-gray">
+						Convert between percentage and cumulative grade point average (10-point scale) using regional formulas.
+					</p>
+				</div>
+			</div>
+
+			<!-- Mode Toggle Button Group -->
+			<div class="grid grid-cols-2 bg-black border border-vercel-border p-1 rounded">
+				<button 
+					id="btn-mode-pct-to-cgpa" 
+					type="button" 
+					class="py-1.5 px-3 rounded text-xs font-semibold text-center transition-all bg-white text-black"
+				>
+					Percentage to CGPA
+				</button>
+				<button 
+					id="btn-mode-cgpa-to-pct" 
+					type="button" 
+					class="py-1.5 px-3 rounded text-xs font-semibold text-center transition-all text-vercel-gray hover:text-white"
+				>
+					CGPA to Percentage
+				</button>
+			</div>
+
+			<!-- Input fields -->
+			<div class="flex flex-col gap-5">
+				<!-- Main Input Element (Percentage or CGPA) -->
+				<div class="flex flex-col gap-2">
+					<label id="input-label" for="input-percentage" class="text-xs text-vercel-light-gray font-medium font-mono uppercase tracking-wider">
+						Enter Percentage (0 - 100)
+					</label>
+					<div class="relative">
+						<input 
+							id="input-percentage" 
+							type="number" 
+							placeholder="e.g., 85.5" 
+							min="0" 
+							max="100" 
+							step="any"
+							class="w-full vercel-input pr-16 font-mono text-lg"
+							required
+						/>
+						<div id="input-suffix" class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none text-vercel-gray font-mono text-sm">
+							%
+						</div>
+					</div>
+				</div>
+
+				<!-- Grading System Select -->
+				<div class="flex flex-col gap-2">
+					<label for="select-grading-system" class="text-xs text-vercel-light-gray font-medium font-mono uppercase tracking-wider">
+						Grading System / Formula
+					</label>
+					<select 
+						id="select-grading-system" 
+						class="w-full vercel-input py-2.5 px-3 bg-black font-sans text-sm"
+					>
+						<option value="cbse" selected>CBSE (9.5 Factor Scale)</option>
+						<option value="linear_10">Standard 10-Point Scale (Linear /10)</option>
+					</select>
+				</div>
+			</div>
+
+			<!-- Formula/Scale Details Box -->
+			<div id="formula-details-box" class="bg-black/50 border border-vercel-border p-4 rounded text-xs text-vercel-light-gray flex flex-col gap-2">
+				<div class="text-white font-bold font-mono text-[10px] uppercase tracking-wider">
+					Formula Mechanics
+				</div>
+				<div id="formula-equation" class="font-mono text-white text-sm py-1">
+					CGPA = Math.min(10.0, Percentage / 9.5)
+				</div>
+				<p id="formula-description" class="leading-relaxed">
+					Under the CBSE guidelines, the cumulative grade point average (CGPA) is computed by dividing the overall percentage by 9.5. The maximum attainable CGPA is 10.0.
+				</p>
+			</div>
+		</div>
+
+		<!-- Quick Conversion Reference Card -->
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-4">
+			<h3 class="text-sm font-bold tracking-tight text-white font-mono uppercase">Quick Reference Table</h3>
+			<div class="overflow-x-auto scrollbar-none">
+				<table class="w-full text-left border-collapse text-xs">
+					<thead>
+						<tr class="border-b border-vercel-border text-[10px] text-vercel-gray uppercase font-mono tracking-wider">
+							<th class="pb-2 font-medium">Percentage</th>
+							<th class="pb-2 font-medium text-right">CBSE CGPA (9.5)</th>
+							<th class="pb-2 font-medium text-right">Standard CGPA (10.0)</th>
+						</tr>
+					</thead>
+					<tbody class="divide-y divide-vercel-border/50 text-vercel-light-gray font-mono">
+						<tr class="hover:text-white transition-colors">
+							<td class="py-2.5">95.0% or above</td>
+							<td class="py-2.5 text-right text-white font-semibold">10.00</td>
+							<td class="py-2.5 text-right">9.50 - 10.00</td>
+						</tr>
+						<tr class="hover:text-white transition-colors">
+							<td class="py-2.5">90.0%</td>
+							<td class="py-2.5 text-right">9.47</td>
+							<td class="py-2.5 text-right">9.00</td>
+						</tr>
+						<tr class="hover:text-white transition-colors">
+							<td class="py-2.5">85.0%</td>
+							<td class="py-2.5 text-right">8.95</td>
+							<td class="py-2.5 text-right">8.50</td>
+						</tr>
+						<tr class="hover:text-white transition-colors">
+							<td class="py-2.5">80.0%</td>
+							<td class="py-2.5 text-right">8.42</td>
+							<td class="py-2.5 text-right">8.00</td>
+						</tr>
+						<tr class="hover:text-white transition-colors">
+							<td class="py-2.5">75.0%</td>
+							<td class="py-2.5 text-right">7.89</td>
+							<td class="py-2.5 text-right">7.50</td>
+						</tr>
+						<tr class="hover:text-white transition-colors">
+							<td class="py-2.5">60.0%</td>
+							<td class="py-2.5 text-right">6.32</td>
+							<td class="py-2.5 text-right">6.00</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- Live Outputs: Right Column -->
+	<div class="w-full lg:w-2/5 flex flex-col gap-6">
+		<!-- Results Analytics Card -->
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-6">
+			<!-- Large CGPA/Percentage Display -->
+			<div class="flex flex-col gap-2">
+				<h3 id="output-cgpa-title" class="text-[10px] uppercase font-mono tracking-widest text-vercel-gray flex items-center gap-1.5">
+					Calculated CGPA
+				</h3>
+				<div class="flex items-baseline gap-1">
+					<span id="output-cgpa" class="text-5xl md:text-6xl font-mono font-bold tracking-tighter text-white transition-all duration-150">0.00</span>
+					<span id="output-cgpa-suffix" class="text-xl font-mono text-vercel-gray">/ 10.0</span>
+				</div>
+				<span id="output-cgpa-note" class="text-[10px] text-vercel-light-gray font-mono">Please enter a percentage to calculate</span>
+			</div>
+			
+			<!-- Divider -->
+			<div class="h-px bg-vercel-border"></div>
+
+			<!-- Dynamic Equivalency Box -->
+			<div class="flex flex-col gap-1.5">
+				<h4 class="text-[10px] uppercase font-mono tracking-wider text-vercel-gray">Status / Class Equivalent</h4>
+				<div id="output-classification" class="text-sm font-semibold text-vercel-light-gray transition-colors">
+					Awaiting input...
+				</div>
+			</div>
+		</div>
+
+		<!-- Calculator Mechanics Info -->
+		<div class="vercel-card p-4 sm:p-6 border border-vercel-border flex flex-col gap-2">
+			<h4 class="text-xs uppercase font-mono tracking-wider text-vercel-gray">Conversion Rules</h4>
+			<p class="text-xs text-vercel-light-gray leading-relaxed">
+				Standard university systems translate percentages/CGPA linearly by a factor of 10 (common in VTU, SPPU, Spain, Mexico, Europe). CBSE board uses a scaling division/multiplication factor of 9.5.
+			</p>
+		</div>
+	</div>
+</div>
+
+<script>
+	function initPercentageToCgpa() {
+		// Toggle buttons
+		const btnPctToCgpa = document.getElementById('btn-mode-pct-to-cgpa') as HTMLButtonElement;
+		const btnCgpaToPct = document.getElementById('btn-mode-cgpa-to-pct') as HTMLButtonElement;
+
+		// Input references
+		const inputLabel = document.getElementById('input-label') as HTMLLabelElement;
+		const inputSuffix = document.getElementById('input-suffix') as HTMLDivElement;
+		const inputPercentage = document.getElementById('input-percentage') as HTMLInputElement;
+		const selectGradingSystem = document.getElementById('select-grading-system') as HTMLSelectElement;
+
+		// Output references
+		const outputCgpaTitle = document.getElementById('output-cgpa-title') as HTMLHeadingElement;
+		const outputCgpa = document.getElementById('output-cgpa');
+		const outputCgpaSuffix = document.getElementById('output-cgpa-suffix') as HTMLSpanElement;
+		const outputCgpaNote = document.getElementById('output-cgpa-note');
+		const outputClassification = document.getElementById('output-classification');
+
+		// Formula container references
+		const formulaEquation = document.getElementById('formula-equation');
+		const formulaDescription = document.getElementById('formula-description');
+
+		if (!btnPctToCgpa || !btnCgpaToPct || !inputPercentage || !selectGradingSystem || !outputCgpa) return;
+
+		// State variable: 'pct_to_cgpa' | 'cgpa_to_pct'
+		let currentMode = 'pct_to_cgpa';
+
+		// Switch Mode Function
+		function setMode(mode: 'pct_to_cgpa' | 'cgpa_to_pct') {
+			currentMode = mode;
+			
+			if (mode === 'pct_to_cgpa') {
+				// Button styling
+				btnPctToCgpa.className = "py-1.5 px-3 rounded text-xs font-semibold text-center transition-all bg-white text-black";
+				btnCgpaToPct.className = "py-1.5 px-3 rounded text-xs font-semibold text-center transition-all text-vercel-gray hover:text-white";
+				
+				// Label & Input settings
+				inputLabel.textContent = "Enter Percentage (0 - 100)";
+				inputSuffix.textContent = "%";
+				inputPercentage.max = "100";
+				inputPercentage.placeholder = "e.g., 85.5";
+				
+				// Output settings
+				outputCgpaTitle.textContent = "Calculated CGPA";
+				outputCgpaSuffix.textContent = "/ 10.0";
+				
+				// Clear or adjust input value on switch to avoid confusion
+				let val = parseFloat(inputPercentage.value);
+				if (!isNaN(val) && val > 100) {
+					inputPercentage.value = "100";
+				}
+
+				// Dynamic browser tab title
+				document.title = "Percentage to CGPA Converter | GradeCalcu";
+			} else {
+				// Button styling
+				btnPctToCgpa.className = "py-1.5 px-3 rounded text-xs font-semibold text-center transition-all text-vercel-gray hover:text-white";
+				btnCgpaToPct.className = "py-1.5 px-3 rounded text-xs font-semibold text-center transition-all bg-white text-black";
+				
+				// Label & Input settings
+				inputLabel.textContent = "Enter CGPA (0 - 10)";
+				inputSuffix.textContent = "points";
+				inputPercentage.max = "10";
+				inputPercentage.placeholder = "e.g., 9.0";
+				
+				// Output settings
+				outputCgpaTitle.textContent = "Calculated Percentage";
+				outputCgpaSuffix.textContent = "%";
+				
+				// Adjust input value on switch if it exceeds the max CGPA of 10
+				let val = parseFloat(inputPercentage.value);
+				if (!isNaN(val) && val > 10) {
+					inputPercentage.value = "10";
+				}
+
+				// Dynamic browser tab title
+				document.title = "CGPA to Percentage Calculator | GradeCalcu";
+			}
+			
+			updateFormulaDisplay();
+			calculate();
+		}
+
+		// Classification Matrix
+		function getClassification(cgpa: number): string {
+			if (cgpa >= 9.0) return "Outstanding (First Class with Distinction)";
+			if (cgpa >= 7.5) return "Excellent (First Class)";
+			if (cgpa >= 6.0) return "Very Good (Second Class)";
+			if (cgpa >= 5.0) return "Good / Average (Pass Class)";
+			if (cgpa > 0.0) return "Satisfactory (Pass)";
+			return "Awaiting valid inputs";
+		}
+
+		// Update explanation cards
+		function updateFormulaDisplay() {
+			const system = selectGradingSystem.value;
+			if (formulaEquation && formulaDescription) {
+				if (currentMode === 'pct_to_cgpa') {
+					if (system === 'cbse') {
+						formulaEquation.textContent = "CGPA = Math.min(10.0, Percentage / 9.5)";
+						formulaDescription.textContent = "Under the CBSE guidelines, the cumulative grade point average (CGPA) is computed by dividing the overall percentage by 9.5. The maximum attainable CGPA is 10.0.";
+					} else {
+						formulaEquation.textContent = "CGPA = Percentage / 10.0";
+						formulaDescription.textContent = "For VTU, SPPU, and standard 10-point systems in Spain, Mexico, and Europe, the conversion is linear. Percentage is divided by 10 to map to a 10.0 scale.";
+					}
+				} else {
+					if (system === 'cbse') {
+						formulaEquation.textContent = "Percentage = Math.min(100.0, CGPA * 9.5)";
+						formulaDescription.textContent = "Under the CBSE guidelines, the overall marks percentage is computed by multiplying the CGPA by 9.5. The maximum attainable percentage is 100.0%.";
+					} else {
+						formulaEquation.textContent = "Percentage = Math.min(100.0, CGPA * 10.0)";
+						formulaDescription.textContent = "For standard 10-point systems, the conversion is linear. CGPA is multiplied by 10 to map to a percentage scale, capped at 100.0%.";
+					}
+				}
+			}
+		}
+
+		// Math Calculation Engine
+		function calculate() {
+			let valStr = inputPercentage.value.trim();
+			if (valStr === '') {
+				outputCgpa!.textContent = "0.00";
+				if (outputCgpaNote) {
+					outputCgpaNote.textContent = currentMode === 'pct_to_cgpa' 
+						? "Please enter a percentage to calculate" 
+						: "Please enter a CGPA to calculate";
+				}
+				if (outputClassification) {
+					outputClassification.textContent = "Awaiting input...";
+					outputClassification.className = "text-sm font-semibold text-vercel-light-gray";
+				}
+				return;
+			}
+
+			let inputVal = parseFloat(valStr);
+			if (isNaN(inputVal)) {
+				outputCgpa!.textContent = "0.00";
+				if (outputCgpaNote) outputCgpaNote.textContent = "Invalid numerical input";
+				if (outputClassification) {
+					outputClassification.textContent = "Awaiting valid inputs";
+					outputClassification.className = "text-sm font-semibold text-red-500";
+				}
+				return;
+			}
+
+			// Clamp bounds
+			if (inputVal < 0) {
+				inputVal = 0;
+			} else {
+				let maxVal = currentMode === 'pct_to_cgpa' ? 100 : 10;
+				if (inputVal > maxVal) inputVal = maxVal;
+			}
+
+			const system = selectGradingSystem.value;
+			let calculatedResult = 0;
+			let classificationCgpa = 0;
+
+			if (currentMode === 'pct_to_cgpa') {
+				if (system === 'cbse') {
+					calculatedResult = Math.min(10.0, inputVal / 9.5);
+				} else {
+					calculatedResult = inputVal / 10.0;
+				}
+				classificationCgpa = calculatedResult;
+			} else {
+				if (system === 'cbse') {
+					calculatedResult = Math.min(100.0, inputVal * 9.5);
+				} else {
+					calculatedResult = Math.min(100.0, inputVal * 10.0);
+				}
+				classificationCgpa = inputVal;
+			}
+
+			// Render Output
+			outputCgpa!.textContent = calculatedResult.toFixed(2);
+			
+			if (outputCgpaNote) {
+				if (currentMode === 'pct_to_cgpa') {
+					if (system === 'cbse') {
+						outputCgpaNote.textContent = `Using CBSE (9.5 factor) for ${inputVal.toFixed(1)}%`;
+					} else {
+						outputCgpaNote.textContent = `Using Standard 10-point scale for ${inputVal.toFixed(1)}%`;
+					}
+				} else {
+					if (system === 'cbse') {
+						outputCgpaNote.textContent = `Using CBSE (9.5 factor) for ${inputVal.toFixed(1)} CGPA`;
+					} else {
+						outputCgpaNote.textContent = `Using Standard 10-point scale for ${inputVal.toFixed(1)} CGPA`;
+					}
+				}
+			}
+
+			if (outputClassification) {
+				const classification = getClassification(classificationCgpa);
+				outputClassification.textContent = classification;
+				if (classificationCgpa >= 7.5) {
+					outputClassification.className = "text-sm font-semibold text-emerald-400";
+				} else if (classificationCgpa >= 5.0) {
+					outputClassification.className = "text-sm font-semibold text-yellow-400 font-medium";
+				} else {
+					outputClassification.className = "text-sm font-semibold text-vercel-light-gray";
+				}
+			}
+		}
+
+		// Input validation constraints on blur
+		inputPercentage.addEventListener('blur', () => {
+			let val = parseFloat(inputPercentage.value);
+			if (!isNaN(val)) {
+				if (val < 0) {
+					inputPercentage.value = "0";
+				} else {
+					let maxLimit = currentMode === 'pct_to_cgpa' ? 100 : 10;
+					if (val > maxLimit) {
+						inputPercentage.value = maxLimit.toString();
+					}
+				}
+				calculate();
+			}
+		});
+
+		// Listeners
+		btnPctToCgpa.addEventListener('click', () => setMode('pct_to_cgpa'));
+		btnCgpaToPct.addEventListener('click', () => setMode('cgpa_to_pct'));
+		inputPercentage.addEventListener('input', calculate);
+		selectGradingSystem.addEventListener('change', () => {
+			updateFormulaDisplay();
+			calculate();
+		});
+
+		// Initial run
+		updateFormulaDisplay();
+		calculate();
+	}
+
+	// Initialize component
+	initPercentageToCgpa();
+	document.addEventListener('astro:page-load', initPercentageToCgpa);
+</script>

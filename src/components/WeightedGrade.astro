@@ -1,0 +1,427 @@
+---
+// Weighted Grade Engine Component
+---
+
+<div class="flex flex-col lg:flex-row gap-8 items-start">
+	<!-- Calculator Inputs Matrix -->
+	<div class="w-full lg:w-3/5 flex flex-col gap-6">
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-4">
+			<div class="flex items-center justify-between">
+				<h2 class="text-xl font-bold tracking-tight text-white">Assignment & Assessment Matrix</h2>
+				<button 
+					id="btn-add-row" 
+					class="vercel-button-secondary text-xs flex items-center gap-1.5 py-1.5 px-3"
+					type="button"
+				>
+					<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+					</svg>
+					Add Row
+				</button>
+			</div>
+
+			<!-- Matrix Table -->
+			<div class="overflow-x-auto scrollbar-none">
+				<table class="w-full text-left border-collapse">
+					<thead>
+						<tr class="border-b border-vercel-border text-xs text-vercel-gray uppercase font-mono tracking-wider">
+							<th class="pb-3 font-medium">Assignment/Category</th>
+							<th class="pb-3 font-medium w-24 sm:w-32">Grade (%)</th>
+							<th class="pb-3 font-medium w-24 sm:w-32">Weight (%)</th>
+							<th class="pb-3 w-8 sm:w-12"></th>
+						</tr>
+					</thead>
+					<tbody id="weighted-table-body" class="divide-y divide-vercel-border/50">
+						<!-- Row 1 -->
+						<tr class="group table-row-item">
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="text" 
+									placeholder="e.g., Homework / Quizzes" 
+									class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+								/>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									placeholder="90" 
+									min="0" 
+									max="200" 
+									step="any"
+									class="w-full vercel-input row-score py-1.5 px-1.5 sm:px-2 text-right"
+									value="90"
+								/>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									placeholder="25" 
+									min="0" 
+									max="100" 
+									step="any"
+									class="w-full vercel-input row-weight py-1.5 px-1.5 sm:px-2 text-right"
+									value="25"
+								/>
+							</td>
+							<td class="py-3 text-right">
+								<button 
+									class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+									aria-label="Delete assessment row"
+								>
+									<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+									</svg>
+								</button>
+							</td>
+						</tr>
+						<!-- Row 2 -->
+						<tr class="group table-row-item">
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="text" 
+									placeholder="e.g., Midterm Exam" 
+									class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+								/>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									placeholder="85" 
+									min="0" 
+									max="200" 
+									step="any"
+									class="w-full vercel-input row-score py-1.5 px-1.5 sm:px-2 text-right"
+									value="85"
+								/>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									placeholder="25" 
+									min="0" 
+									max="100" 
+									step="any"
+									class="w-full vercel-input row-weight py-1.5 px-1.5 sm:px-2 text-right"
+									value="25"
+								/>
+							</td>
+							<td class="py-3 text-right">
+								<button 
+									class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+									aria-label="Delete assessment row"
+								>
+									<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+									</svg>
+								</button>
+							</td>
+						</tr>
+						<!-- Row 3 -->
+						<tr class="group table-row-item">
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="text" 
+									placeholder="e.g., Semester Project" 
+									class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+								/>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									placeholder="92" 
+									min="0" 
+									max="200" 
+									step="any"
+									class="w-full vercel-input row-score py-1.5 px-1.5 sm:px-2 text-right"
+									value="92"
+								/>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									placeholder="20" 
+									min="0" 
+									max="100" 
+									step="any"
+									class="w-full vercel-input row-weight py-1.5 px-1.5 sm:px-2 text-right"
+									value="20"
+								/>
+							</td>
+							<td class="py-3 text-right">
+								<button 
+									class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+									aria-label="Delete assessment row"
+								>
+									<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+									</svg>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<!-- Output Analytics Panel -->
+	<div class="w-full lg:w-2/5 flex flex-col gap-6">
+		<!-- Live Summary Metrics Card -->
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-5">
+			<h2 class="text-xs uppercase font-mono tracking-widest text-vercel-gray">Live Calculations</h2>
+			
+			<div class="flex flex-col gap-4">
+				<!-- Current Weighted Grade -->
+				<div class="flex flex-col gap-1">
+					<span class="text-xs text-vercel-light-gray font-medium">Current Weighted Grade</span>
+					<div class="flex items-baseline gap-1">
+						<span id="current-grade-output" class="text-4xl md:text-5xl font-mono font-bold tracking-tight text-white">88.86</span>
+						<span class="text-xl font-mono text-vercel-gray">%</span>
+					</div>
+					<span class="text-[10px] text-vercel-gray font-mono">Calculated from allocated weights</span>
+				</div>
+				
+				<!-- Divider -->
+				<div class="h-px bg-vercel-border"></div>
+
+				<!-- Distribution Details -->
+				<div class="grid grid-cols-2 gap-4">
+					<div class="flex flex-col gap-0.5">
+						<span class="text-[11px] text-vercel-light-gray">Total Weights Entered</span>
+						<span id="total-weight-output" class="text-lg font-mono font-semibold text-white">70.00%</span>
+					</div>
+					<div class="flex flex-col gap-0.5">
+						<span class="text-[11px] text-vercel-light-gray">Remaining Weight</span>
+						<span id="remaining-weight-output" class="text-lg font-mono font-semibold text-white">30.00%</span>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Final Exam Horizon Predictor Card -->
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-4 relative overflow-hidden">
+			<!-- Subtle Glass Accent Glow -->
+			<div class="absolute -right-16 -top-16 w-32 h-32 bg-white/[0.02] rounded-full blur-2xl pointer-events-none"></div>
+			
+			<h2 class="text-xs uppercase font-mono tracking-widest text-vercel-gray flex items-center gap-1.5">
+				<span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+				Final Exam Horizon
+			</h2>
+
+			<div class="flex flex-col gap-4">
+				<div class="flex flex-col gap-1.5">
+					<label for="target-grade-input" class="text-xs text-vercel-light-gray">I want an overall grade of:</label>
+					<div class="relative">
+						<input 
+							id="target-grade-input" 
+							type="number" 
+							min="0" 
+							max="200" 
+							step="any"
+							value="90" 
+							class="w-full vercel-input pr-8"
+						/>
+						<span class="absolute right-3 top-2.5 text-sm font-mono text-vercel-gray pointer-events-none">%</span>
+					</div>
+				</div>
+
+				<div class="bg-black/40 border border-vercel-border/50 p-4 rounded flex flex-col gap-1">
+					<span class="text-[10px] uppercase font-mono tracking-wider text-vercel-gray">Score Needed on Final Exam</span>
+					<div id="required-score-container" class="flex items-baseline gap-1">
+						<span id="required-score-output" class="text-3xl font-mono font-bold text-white">92.67</span>
+						<span class="text-lg font-mono text-vercel-gray">%</span>
+					</div>
+					<span id="required-score-note" class="text-[10px] text-vercel-light-gray">To achieve 90% overall grade.</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+	// Run client-side calculation
+	function initWeightedCalculator() {
+		const tableBody = document.getElementById('weighted-table-body');
+		const btnAddRow = document.getElementById('btn-add-row');
+		const targetGradeInput = document.getElementById('target-grade-input') as HTMLInputElement;
+
+		const currentGradeOutput = document.getElementById('current-grade-output');
+		const totalWeightOutput = document.getElementById('total-weight-output');
+		const remainingWeightOutput = document.getElementById('remaining-weight-output');
+		const requiredScoreOutput = document.getElementById('required-score-output');
+		const requiredScoreContainer = document.getElementById('required-score-container');
+		const requiredScoreNote = document.getElementById('required-score-note');
+
+		if (!tableBody || !currentGradeOutput || !totalWeightOutput || !remainingWeightOutput || !requiredScoreOutput) return;
+
+		// Calculate Weighted Grade Function
+		function calculate() {
+			const rows = tableBody.querySelectorAll('tr');
+			let sumWeightedScores = 0; // Sum of Grade * Weight
+			let sumWeights = 0; // Sum of Weights
+
+			rows.forEach(row => {
+				const scoreInput = row.querySelector('.row-score') as HTMLInputElement;
+				const weightInput = row.querySelector('.row-weight') as HTMLInputElement;
+
+				if (scoreInput && weightInput) {
+					const score = parseFloat(scoreInput.value);
+					const weight = parseFloat(weightInput.value);
+
+					// Only include rows where both inputs are numbers
+					if (!isNaN(score) && !isNaN(weight) && weight > 0) {
+						sumWeightedScores += (score * weight);
+						sumWeights += weight;
+					}
+				}
+			});
+
+			// Calculations
+			let currentGrade = 0;
+			if (sumWeights > 0) {
+				currentGrade = sumWeightedScores / sumWeights;
+			}
+			const remainingWeight = Math.max(0, 100 - sumWeights);
+
+			// Update DOM
+			currentGradeOutput!.textContent = sumWeights > 0 ? currentGrade.toFixed(2) : "0.00";
+			totalWeightOutput!.textContent = sumWeights.toFixed(2) + "%";
+			remainingWeightOutput!.textContent = remainingWeight.toFixed(2) + "%";
+
+			// Final Exam Predictor Logic
+			const targetGrade = parseFloat(targetGradeInput?.value || "90");
+			
+			if (isNaN(targetGrade)) {
+				requiredScoreOutput!.textContent = "—";
+				requiredScoreNote!.textContent = "Please enter a valid target grade.";
+				return;
+			}
+
+			if (remainingWeight <= 0) {
+				requiredScoreOutput!.textContent = "—";
+				requiredScoreNote!.textContent = "100% of weight is already allocated.";
+				requiredScoreNote!.className = "text-[10px] text-amber-500 font-mono";
+				return;
+			}
+
+			// Required Final Grade Score:
+			// sumWeightedScores + FinalGrade * (remainingWeight / 100) = targetGrade
+			// FinalGrade = (targetGrade - sumWeightedScores) / (remainingWeight) * 100
+			// Wait, let's keep track: sumWeightedScores is already (Grade * Weight), so to get targetGrade:
+			// (sumWeightedScores + FinalGrade * remainingWeight) / 100 = targetGrade
+			// FinalGrade * remainingWeight = (targetGrade * 100) - sumWeightedScores
+			// FinalGrade = (targetGrade * 100 - sumWeightedScores) / remainingWeight
+			// Wait, let's double check if sumWeightedScores was score * weight.
+			// Yes! For row 1, score 90, weight 25 => score*weight = 2250.
+			// For row 2, score 85, weight 25 => score*weight = 2125.
+			// For row 3, score 92, weight 20 => score*weight = 1840.
+			// Total weight = 70%. Sum of products = 6215.
+			// Current Grade = 6215 / 70 = 88.78%.
+			// Target grade = 90%.
+			// We want (6215 + FinalGrade * 30) / 100 = 90.
+			// 6215 + FinalGrade * 30 = 9000.
+			// FinalGrade * 30 = 9000 - 6215 = 2785.
+			// FinalGrade = 2785 / 30 = 92.83%.
+			// Let's implement this formula:
+			const requiredScore = (targetGrade * 100 - sumWeightedScores) / remainingWeight;
+
+			requiredScoreOutput!.textContent = requiredScore.toFixed(2);
+			requiredScoreNote!.textContent = `Required final exam grade to achieve ${targetGrade}% overall.`;
+			
+			if (requiredScore > 100) {
+				requiredScoreNote!.textContent = `Warning: Requires a score above 100% (${requiredScore.toFixed(1)}%). Extra credit needed.`;
+				requiredScoreNote!.className = "text-[10px] text-red-400 font-mono";
+			} else if (requiredScore <= 0) {
+				requiredScoreNote!.textContent = `Guaranteed: You already secured this target grade (needs ${requiredScore.toFixed(1)}%).`;
+				requiredScoreNote!.className = "text-[10px] text-emerald-400 font-mono";
+			} else {
+				requiredScoreNote!.className = "text-[10px] text-vercel-light-gray";
+			}
+		}
+
+		// Event Delegation for input modifications
+		tableBody.addEventListener('input', calculate);
+		targetGradeInput?.addEventListener('input', calculate);
+
+		// Delete Row handler
+		tableBody.addEventListener('click', (e) => {
+			const target = e.target as HTMLElement;
+			const deleteBtn = target.closest('.btn-delete-row');
+			
+			if (deleteBtn) {
+				const row = deleteBtn.closest('tr');
+				if (row) {
+					// Don't delete if it's the last remaining row
+					if (tableBody.querySelectorAll('tr').length > 1) {
+						row.remove();
+						calculate();
+					} else {
+						// Just clear the inputs if it's the last row
+						const inputs = row.querySelectorAll('input');
+						inputs.forEach((input, index) => {
+							if (index === 0) input.value = '';
+							else input.value = '';
+						});
+						calculate();
+					}
+				}
+			}
+		});
+
+		// Add Row Handler
+		btnAddRow?.addEventListener('click', () => {
+			const tr = document.createElement('tr');
+			tr.className = 'group table-row-item border-t border-vercel-border/50';
+			tr.innerHTML = `
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="text" 
+						placeholder="e.g., Assignment" 
+						class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+					/>
+				</td>
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="number" 
+						placeholder="100" 
+						min="0" 
+						max="200" 
+						step="any"
+						class="w-full vercel-input row-score py-1.5 px-1.5 sm:px-2 text-right"
+					/>
+				</td>
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="number" 
+						placeholder="10" 
+						min="0" 
+						max="100" 
+						step="any"
+						class="w-full vercel-input row-weight py-1.5 px-1.5 sm:px-2 text-right"
+					/>
+				</td>
+				<td class="py-3 text-right">
+					<button 
+						class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+						aria-label="Delete assessment row"
+					>
+						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+						</svg>
+					</button>
+				</td>
+			`;
+			tableBody.appendChild(tr);
+			// Focus the name input in the new row
+			const nameInput = tr.querySelector('input[type="text"]') as HTMLInputElement;
+			nameInput?.focus();
+		});
+
+		// Initial calculation
+		calculate();
+	}
+
+	// Initialize on page load and navigation
+	initWeightedCalculator();
+	document.addEventListener('astro:page-load', initWeightedCalculator);
+</script>

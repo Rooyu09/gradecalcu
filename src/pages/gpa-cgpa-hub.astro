@@ -1,0 +1,147 @@
+---
+import DashboardLayout from '../layouts/DashboardLayout.astro';
+import GpaCgpaHub from '../components/GpaCgpaHub.astro';
+
+// SEO details for the GPA & CGPA Hub
+const title = "GPA & CGPA Calculator - Semester & Cumulative Hub | GradeCalcu";
+const description = "Calculate both your Semester GPA and Cumulative CGPA on a standard 4.0 scale. Blend current courses with historical credits instantly in our private browser dashboard.";
+const keywords = "cumulative gpa calculator, CGPA calculator, cumulative grade point average, semester gpa hub, gpa scale, credit weighted average";
+const canonicalUrl = "https://gradecalcu.com/gpa-cgpa-hub";
+---
+
+<DashboardLayout 
+	title={title} 
+	description={description} 
+	keywords={keywords} 
+	canonicalUrl={canonicalUrl}
+	activeTab="cgpa"
+>
+	<!-- GPA & CGPA Hub Widget -->
+	<GpaCgpaHub />
+
+	<!-- Programmatic SEO Below-the-fold Content -->
+	<div slot="seo-content" class="prose prose-invert max-w-none flex flex-col gap-8 text-vercel-light-gray">
+		<section class="flex flex-col gap-4">
+			<h2 class="text-2xl font-bold tracking-tight text-white">Understanding the Difference Between GPA and Cumulative CGPA</h2>
+			<p class="text-sm leading-relaxed">
+				Understanding your academic standing requires evaluating two distinct metrics: your <strong>Semester GPA</strong> and your <strong>Cumulative CGPA</strong>. 
+			</p>
+			<ul class="list-disc list-inside text-sm pl-2 flex flex-col gap-2">
+				<li>
+					<strong>Semester GPA (Grade Point Average):</strong> Measures your average performance across all courses taken within a single term (e.g., Fall Semester).
+				</li>
+				<li>
+					<strong>Cumulative CGPA (Cumulative Grade Point Average):</strong> Represents your aggregate average performance over your entire enrollment history, spanning all completed semesters.
+				</li>
+			</ul>
+			<p class="text-sm leading-relaxed">
+				Because semesters can have different course loads, you cannot calculate Cumulative GPA by simply averaging your semester GPAs. Semesters must be weighted based on their attempted credit hours to ensure mathematical accuracy.
+			</p>
+		</section>
+
+		<section class="flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">How to Compute Cumulative GPA Correctly</h3>
+			<p class="text-sm leading-relaxed">
+				To calculate your Cumulative GPA, multiply each course's grade points by its credit value to determine the "total grade points" earned. Sum these points across all terms, then divide by your total cumulative credits.
+			</p>
+			
+			<div class="bg-black/50 border border-vercel-border p-5 rounded font-mono text-xs flex flex-col gap-3 my-2 text-center text-white overflow-x-auto scrollbar-none">
+				<div class="text-white font-bold border-b border-vercel-border pb-2 mb-2">
+					THE CGPA FORMULA
+				</div>
+				{"$$CGPA = \\frac{(Prior\\,GPA \\times Prior\\,Credits) + (Current\\,GPA \\times Current\\,Credits)}{Prior\\,Credits + Current\\,Credits}$$"}
+			</div>
+			
+			<h4 class="text-xs font-bold uppercase tracking-wider text-white mt-4">Step-by-Step Example:</h4>
+			<p class="text-sm leading-relaxed">
+				Suppose you completed your freshman year with the following stats:
+			</p>
+			<ul class="list-disc list-inside text-sm pl-2 flex flex-col gap-1">
+				<li><strong>Prior Cumulative standing:</strong> 3.50 GPA over 45 credits.</li>
+				<li><strong>Current Semester standing:</strong> 3.80 GPA over 15 credits.</li>
+			</ul>
+			<p class="text-sm leading-relaxed">
+				To find your new cumulative CGPA:
+			</p>
+			<div class="bg-vercel-card border border-vercel-border p-4 rounded font-mono text-xs leading-relaxed">
+				Total Points = (3.50 &times; 45) + (3.80 &times; 15) = 157.5 + 57 = 214.50 <br />
+				Total Credits = 45 + 15 = 60.00 <br />
+				Cumulative GPA = 214.50 / 60.00 = <strong class="text-white">3.58</strong>
+			</div>
+		</section>
+
+		<!-- Crawlable FAQ Schema -->
+		<section class="border-t border-vercel-border/50 pt-8 flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Frequently Asked Questions (FAQ)</h3>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">What is a good Cumulative GPA?</h4>
+					<p class="text-xs leading-relaxed">
+						Typically, a 3.0 CGPA or higher is considered a solid standing, representing a 'B' average. Competitive graduate schools and top-tier jobs often seek applicants with a 3.5 CGPA or higher.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Why does credit weight affect my CGPA?</h4>
+					<p class="text-xs leading-relaxed">
+						Credit weight reflects class intensity. A 4-credit calculus course impacts your average four times as much as a 1-credit PE course. The weighted calculation ensures that longer, more demanding courses carry proportional influence.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Are transfer credits included in my CGPA?</h4>
+					<p class="text-xs leading-relaxed">
+						In most universities, transfer credits from other institutions do not count toward your institutional Cumulative GPA. They count as earned credits for graduation requirements, but their grades are not factored into the GPA.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">How does GradeCalcu handle pass/fail grades?</h4>
+					<p class="text-xs leading-relaxed">
+						Pass/fail (P/F) or satisfactory/unsatisfactory (S/U) courses do not carry grade points. Since their grade point equivalent is undefined, they are excluded from the GPA and CGPA calculations.
+					</p>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- JSON-LD FAQ Schema for Search Engines -->
+	<script type="application/ld+json" slot="seo-content">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{
+					"@type": "Question",
+					"name": "What is a good Cumulative GPA?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Typically, a 3.0 CGPA or higher is considered a solid standing, representing a 'B' average. Competitive graduate schools and top-tier jobs often seek applicants with a 3.5 CGPA or higher."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Why does credit weight affect my CGPA?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Credit weight reflects class intensity. A 4-credit calculus course impacts your average four times as much as a 1-credit PE course. The weighted calculation ensures that longer, more demanding courses carry proportional influence."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Are transfer credits included in my CGPA?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "In most universities, transfer credits from other institutions do not count toward your institutional Cumulative GPA. They count as earned credits for graduation requirements, but their grades are not factored into the GPA."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "How does GradeCalcu handle pass/fail grades?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Pass/fail (P/F) or satisfactory/unsatisfactory (S/U) courses do not carry grade points. Since their grade point equivalent is undefined, they are excluded from the GPA and CGPA calculations."
+					}
+				}
+			]
+		}
+	</script>
+</DashboardLayout>

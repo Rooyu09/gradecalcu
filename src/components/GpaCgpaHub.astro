@@ -1,0 +1,458 @@
+---
+// GPA & CGPA Hub Component
+---
+
+<div class="flex flex-col lg:flex-row gap-8 items-start">
+	<!-- Inputs: Left Column -->
+	<div class="w-full lg:w-3/5 flex flex-col gap-6">
+		<!-- Current Semester Card -->
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-4">
+			<div class="flex items-center justify-between">
+				<h2 class="text-xl font-bold tracking-tight text-white">Current Semester Courses</h2>
+				<button 
+					id="btn-add-course" 
+					class="vercel-button-secondary text-xs flex items-center gap-1.5 py-1.5 px-3"
+					type="button"
+				>
+					<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+						<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+					</svg>
+					Add Course
+				</button>
+			</div>
+
+			<!-- Dynamic Table -->
+			<div class="overflow-x-auto scrollbar-none">
+				<table class="w-full text-left border-collapse">
+					<thead>
+						<tr class="border-b border-vercel-border text-xs text-vercel-gray uppercase font-mono tracking-wider">
+							<th class="pb-3 font-medium">Course Title</th>
+							<th class="pb-3 font-medium w-28 sm:w-36">Grade</th>
+							<th class="pb-3 font-medium w-20 sm:w-28">Credits</th>
+							<th class="pb-3 w-8 sm:w-12"></th>
+						</tr>
+					</thead>
+					<tbody id="semester-courses-body" class="divide-y divide-vercel-border/50">
+						<!-- Course 1 -->
+						<tr class="group table-row-item">
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="text" 
+									placeholder="e.g., Computer Science I" 
+									class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2 font-sans font-medium"
+								/>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<select class="w-full vercel-input row-grade py-1.5 px-1.5 sm:px-2 bg-black font-sans">
+									<option value="4.0" selected>A (4.0)</option>
+									<option value="3.7">A- (3.7)</option>
+									<option value="3.3">B+ (3.3)</option>
+									<option value="3.0">B (3.0)</option>
+									<option value="2.7">B- (2.7)</option>
+									<option value="2.3">C+ (2.3)</option>
+									<option value="2.0">C (2.0)</option>
+									<option value="1.7">C- (1.7)</option>
+									<option value="1.3">D+ (1.3)</option>
+									<option value="1.0">D (1.0)</option>
+									<option value="0.0">F (0.0)</option>
+								</select>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									placeholder="4" 
+									min="0.5" 
+									max="20" 
+									step="any"
+									class="w-full vercel-input row-credits py-1.5 px-1.5 sm:px-2 text-right"
+								/>
+							</td>
+							<td class="py-3 text-right">
+								<button 
+									class="btn-delete-course text-vercel-gray hover:text-red-500 transition-colors p-1"
+									aria-label="Delete course row"
+								>
+									<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+									</svg>
+								</button>
+							</td>
+						</tr>
+						<!-- Course 2 -->
+						<tr class="group table-row-item">
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="text" 
+									placeholder="e.g., Calculus II" 
+									class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2 font-sans font-medium"
+								/>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<select class="w-full vercel-input row-grade py-1.5 px-1.5 sm:px-2 bg-black font-sans">
+									<option value="4.0">A (4.0)</option>
+									<option value="3.7" selected>A- (3.7)</option>
+									<option value="3.3">B+ (3.3)</option>
+									<option value="3.0">B (3.0)</option>
+									<option value="2.7">B- (2.7)</option>
+									<option value="2.3">C+ (2.3)</option>
+									<option value="2.0">C (2.0)</option>
+									<option value="1.7">C- (1.7)</option>
+									<option value="1.3">D+ (1.3)</option>
+									<option value="1.0">D (1.0)</option>
+									<option value="0.0">F (0.0)</option>
+								</select>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									placeholder="4" 
+									min="0.5" 
+									max="20" 
+									step="any"
+									class="w-full vercel-input row-credits py-1.5 px-1.5 sm:px-2 text-right"
+								/>
+							</td>
+							<td class="py-3 text-right">
+								<button 
+									class="btn-delete-course text-vercel-gray hover:text-red-500 transition-colors p-1"
+									aria-label="Delete course row"
+								>
+									<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+									</svg>
+								</button>
+							</td>
+						</tr>
+						<!-- Course 3 -->
+						<tr class="group table-row-item">
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="text" 
+									placeholder="e.g., Physics Lab" 
+									class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2 font-sans font-medium"
+								/>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<select class="w-full vercel-input row-grade py-1.5 px-1.5 sm:px-2 bg-black font-sans">
+									<option value="4.0">A (4.0)</option>
+									<option value="3.7">A- (3.7)</option>
+									<option value="3.3" selected>B+ (3.3)</option>
+									<option value="3.0">B (3.0)</option>
+									<option value="2.7">B- (2.7)</option>
+									<option value="2.3">C+ (2.3)</option>
+									<option value="2.0">C (2.0)</option>
+									<option value="1.7">C- (1.7)</option>
+									<option value="1.3">D+ (1.3)</option>
+									<option value="1.0">D (1.0)</option>
+									<option value="0.0">F (0.0)</option>
+								</select>
+							</td>
+							<td class="py-3 pr-2 sm:pr-4">
+								<input 
+									type="number" 
+									placeholder="1" 
+									min="0.5" 
+									max="20" 
+									step="any"
+									class="w-full vercel-input row-credits py-1.5 px-1.5 sm:px-2 text-right"
+								/>
+							</td>
+							<td class="py-3 text-right">
+								<button 
+									class="btn-delete-course text-vercel-gray hover:text-red-500 transition-colors p-1"
+									aria-label="Delete course row"
+								>
+									<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+										<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+									</svg>
+								</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+		<!-- Optional Cumulative Matrix Card -->
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-4 border border-vercel-border transition-all duration-300">
+			<!-- Toggle Header -->
+			<div class="flex items-center justify-between">
+				<label for="cgpa-toggle" class="flex items-center gap-3 cursor-pointer select-none">
+					<div class="relative">
+						<input 
+							type="checkbox" 
+							id="cgpa-toggle" 
+							class="sr-only peer"
+						/>
+						<div class="w-9 h-5 bg-vercel-black border border-vercel-border rounded-full peer peer-checked:bg-white peer-checked:border-white transition-colors duration-200"></div>
+						<div class="absolute left-1 top-1 bg-vercel-gray peer-checked:bg-black w-3 h-3 rounded-full transition-all duration-200 peer-checked:translate-x-4"></div>
+					</div>
+					<span class="text-sm font-bold text-white tracking-tight">Include Previous Semesters for CGPA</span>
+				</label>
+			</div>
+
+			<!-- Expandable Matrix Section -->
+			<div id="cumulative-matrix-fields" class="hidden flex-col gap-4 border-t border-vercel-border/50 pt-4 transition-all duration-300">
+				<p class="text-xs text-vercel-light-gray">
+					Enter your cumulative statistics prior to this current semester to blend them into a complete historical CGPA.
+				</p>
+				
+				<div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+					<div class="flex flex-col gap-1.5">
+						<label for="prior-gpa" class="text-xs text-vercel-light-gray font-medium">Prior Cumulative GPA</label>
+						<input 
+							id="prior-gpa" 
+							type="number" 
+							placeholder="3.50" 
+							min="0" 
+							max="4.0" 
+							step="any"
+							class="w-full vercel-input"
+						/>
+					</div>
+					
+					<div class="flex flex-col gap-1.5">
+						<label for="prior-credits" class="text-xs text-vercel-light-gray font-medium">Prior Total Earned Credits</label>
+						<input 
+							id="prior-credits" 
+							type="number" 
+							placeholder="45" 
+							min="0" 
+							step="any"
+							class="w-full vercel-input"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Live Outputs: Right Column -->
+	<div class="w-full lg:w-2/5 flex flex-col gap-6">
+		<!-- Outputs Analytics Card -->
+		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-6">
+			<!-- Semester GPA Block -->
+			<div class="flex flex-col gap-2">
+				<h3 class="text-xs uppercase font-mono tracking-widest text-vercel-gray">Semester GPA</h3>
+				<div class="flex items-baseline gap-1">
+					<span id="output-semester-gpa" class="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-white">3.79</span>
+					<span class="text-lg font-mono text-vercel-gray">/ 4.0</span>
+				</div>
+				<span id="output-semester-credits" class="text-[10px] text-vercel-light-gray font-mono">Based on 9.00 credits this semester</span>
+			</div>
+			
+			<!-- Divider -->
+			<div class="h-px bg-vercel-border"></div>
+
+			<!-- Cumulative CGPA Block -->
+			<div class="flex flex-col gap-2">
+				<h3 class="text-xs uppercase font-mono tracking-widest text-vercel-gray flex items-center gap-1.5">
+					<span id="cgpa-status-dot" class="w-1.5 h-1.5 rounded-full bg-vercel-gray"></span>
+					Cumulative CGPA
+				</h3>
+				<div class="flex items-baseline gap-1">
+					<span id="output-cumulative-cgpa" class="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-white">3.79</span>
+					<span class="text-lg font-mono text-vercel-gray">/ 4.0</span>
+				</div>
+				<span id="output-cumulative-credits" class="text-[10px] text-vercel-light-gray font-mono">Mirroring Semester GPA (No prior history)</span>
+			</div>
+		</div>
+
+		<!-- Explanatory Guide Card -->
+		<div class="vercel-card p-4 sm:p-6 border border-vercel-border flex flex-col gap-2">
+			<h4 class="text-xs uppercase font-mono tracking-wider text-vercel-gray">GPA Mechanics</h4>
+			<p class="text-xs text-vercel-light-gray leading-relaxed">
+				To calculate Semester GPA, each course grade point is weighted by its credit count. Cumulative CGPA blends prior credits and grade points with this semester.
+			</p>
+		</div>
+	</div>
+</div>
+
+<script>
+	function initGpaCgpaHub() {
+		// Toggle variables
+		const toggle = document.getElementById('cgpa-toggle') as HTMLInputElement;
+		const matrixFields = document.getElementById('cumulative-matrix-fields');
+		const cgpaStatusDot = document.getElementById('cgpa-status-dot');
+
+		// Inputs
+		const tableBody = document.getElementById('semester-courses-body');
+		const btnAddCourse = document.getElementById('btn-add-course');
+		const priorGpaInput = document.getElementById('prior-gpa') as HTMLInputElement;
+		const priorCreditsInput = document.getElementById('prior-credits') as HTMLInputElement;
+
+		// Outputs
+		const semGpaOutput = document.getElementById('output-semester-gpa');
+		const semCreditsOutput = document.getElementById('output-semester-credits');
+		const cumCgpaOutput = document.getElementById('output-cumulative-cgpa');
+		const cumCreditsOutput = document.getElementById('output-cumulative-credits');
+
+		if (!tableBody || !semGpaOutput || !cumCgpaOutput) return;
+
+		// Handle expansion of cumulative fields
+		toggle?.addEventListener('change', () => {
+			if (toggle.checked) {
+				matrixFields?.classList.remove('hidden');
+				matrixFields?.classList.add('flex');
+				cgpaStatusDot?.classList.remove('bg-vercel-gray');
+				cgpaStatusDot?.classList.add('bg-white');
+			} else {
+				matrixFields?.classList.add('hidden');
+				matrixFields?.classList.remove('flex');
+				cgpaStatusDot?.classList.add('bg-vercel-gray');
+				cgpaStatusDot?.classList.remove('bg-white');
+			}
+			calculate();
+		});
+
+		// Calculations Engine
+		function calculate() {
+			const rows = tableBody!.querySelectorAll('tr');
+			let semCreditsSum = 0;
+			let semGradePointsSum = 0;
+
+			// Fetch value or default placeholder
+			const getVal = (input: HTMLInputElement): number => {
+				const val = parseFloat(input.value);
+				if (!isNaN(val)) return val;
+				return parseFloat(input.getAttribute('placeholder') || '0');
+			};
+
+			rows.forEach(row => {
+				const gradeSelect = row.querySelector('.row-grade') as HTMLSelectElement;
+				const creditsInput = row.querySelector('.row-credits') as HTMLInputElement;
+
+				if (gradeSelect && creditsInput) {
+					const gradePoints = parseFloat(gradeSelect.value);
+					const credits = getVal(creditsInput);
+
+					if (!isNaN(gradePoints) && credits > 0) {
+						semGradePointsSum += (gradePoints * credits);
+						semCreditsSum += credits;
+					}
+				}
+			});
+
+			// Compute Semester GPA
+			const semGpa = semCreditsSum > 0 ? (semGradePointsSum / semCreditsSum) : 0;
+
+			// Update Semester Outputs
+			semGpaOutput!.textContent = semCreditsSum > 0 ? semGpa.toFixed(2) : "0.00";
+			semCreditsOutput!.textContent = `Based on ${semCreditsSum.toFixed(2)} credits this semester.`;
+
+			// Check Cumulative GPA Integration
+			const isToggleChecked = toggle?.checked || false;
+			const priorGpa = priorGpaInput ? parseFloat(priorGpaInput.value) : NaN;
+			const priorCredits = priorCreditsInput ? parseFloat(priorCreditsInput.value) : NaN;
+
+			if (isToggleChecked && !isNaN(priorGpa) && !isNaN(priorCredits) && priorCredits > 0) {
+				// Prior GPA + Semester GPA combined
+				const totalCredits = semCreditsSum + priorCredits;
+				const totalPoints = semGradePointsSum + (priorGpa * priorCredits);
+				const cumGpa = totalPoints / totalCredits;
+
+				cumCgpaOutput!.textContent = cumGpa.toFixed(2);
+				cumCreditsOutput!.textContent = `Combined total of ${totalCredits.toFixed(2)} cumulative credits.`;
+			} else {
+				// Fallback: Mirror Semester GPA
+				cumCgpaOutput!.textContent = semCreditsSum > 0 ? semGpa.toFixed(2) : "0.00";
+				
+				if (isToggleChecked) {
+					cumCreditsOutput!.textContent = "Awaiting prior credits & prior GPA metrics.";
+				} else {
+					cumCreditsOutput!.textContent = "Mirroring Semester GPA (No prior history).";
+				}
+			}
+		}
+
+		// Event listeners delegation
+		tableBody.addEventListener('input', calculate);
+		tableBody.addEventListener('change', calculate);
+		priorGpaInput?.addEventListener('input', calculate);
+		priorCreditsInput?.addEventListener('input', calculate);
+
+		// Delete course rows
+		tableBody.addEventListener('click', (e) => {
+			const target = e.target as HTMLElement;
+			const deleteBtn = target.closest('.btn-delete-course');
+			
+			if (deleteBtn) {
+				const row = deleteBtn.closest('tr');
+				if (row) {
+					if (tableBody.querySelectorAll('tr').length > 1) {
+						row.remove();
+						calculate();
+					} else {
+						// Reset inputs of the last remaining row
+						const textInput = row.querySelector('input[type="text"]') as HTMLInputElement;
+						if (textInput) textInput.value = '';
+						const gradeSelect = row.querySelector('.row-grade') as HTMLSelectElement;
+						if (gradeSelect) gradeSelect.selectedIndex = 0;
+						const creditsInput = row.querySelector('.row-credits') as HTMLInputElement;
+						if (creditsInput) creditsInput.value = '';
+						calculate();
+					}
+				}
+			}
+		});
+
+		// Add Course button handler
+		btnAddCourse?.addEventListener('click', () => {
+			const tr = document.createElement('tr');
+			tr.className = 'group table-row-item border-t border-vercel-border/50';
+			tr.innerHTML = `
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="text" 
+						placeholder="e.g., Course Name" 
+						class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2 font-sans font-medium"
+					/>
+				</td>
+				<td class="py-3 pr-2 sm:pr-4">
+					<select class="w-full vercel-input row-grade py-1.5 px-1.5 sm:px-2 bg-black font-sans">
+						<option value="4.0" selected>A (4.0)</option>
+						<option value="3.7">A- (3.7)</option>
+						<option value="3.3">B+ (3.3)</option>
+						<option value="3.0">B (3.0)</option>
+						<option value="2.7">B- (2.7)</option>
+						<option value="2.3">C+ (2.3)</option>
+						<option value="2.0">C (2.0)</option>
+						<option value="1.7">C- (1.7)</option>
+						<option value="1.3">D+ (1.3)</option>
+						<option value="1.0">D (1.0)</option>
+						<option value="0.0">F (0.0)</option>
+					</select>
+				</td>
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="number" 
+						placeholder="3" 
+						min="0.5" 
+						max="20" 
+						step="any"
+						class="w-full vercel-input row-credits py-1.5 px-1.5 sm:px-2 text-right"
+					/>
+				</td>
+				<td class="py-3 text-right">
+					<button 
+						class="btn-delete-course text-vercel-gray hover:text-red-500 transition-colors p-1"
+						aria-label="Delete course row"
+					>
+						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+						</svg>
+					</button>
+				</td>
+			`;
+			tableBody.appendChild(tr);
+			const titleInput = tr.querySelector('input[type="text"]') as HTMLInputElement;
+			titleInput?.focus();
+		});
+
+		// Run Initial Calculation
+		calculate();
+	}
+
+	initGpaCgpaHub();
+	document.addEventListener('astro:page-load', initGpaCgpaHub);
+</script>

@@ -74,18 +74,40 @@
 				</div>
 			</div>
 
-			<!-- Formula/Scale Details Box -->
-			<div id="formula-details-box" class="bg-black/50 border border-vercel-border p-4 rounded text-xs text-vercel-light-gray flex flex-col gap-2">
-				<div class="text-white font-bold font-mono text-[10px] uppercase tracking-wider">
-					Formula Mechanics
+			<!-- Live Calculation Result Card -->
+			<div id="live-result-box" class="bg-neutral-950 border border-vercel-border p-4 sm:p-5 rounded flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 transition-all duration-200 hover:border-vercel-gray/40">
+				<div class="flex flex-col gap-2">
+					<h3 id="output-cgpa-title" class="text-[10px] uppercase font-mono tracking-widest text-vercel-gray">
+						Calculated CGPA
+					</h3>
+					<div class="flex items-baseline gap-1">
+						<span id="output-cgpa" class="text-5xl font-mono font-bold tracking-tighter text-white transition-all duration-150">0.00</span>
+						<span id="output-cgpa-suffix" class="text-lg font-mono text-vercel-gray">/ 10.0</span>
+					</div>
+					<span id="output-cgpa-note" class="text-[10px] text-vercel-light-gray font-mono">Please enter a percentage to calculate</span>
 				</div>
-				<div id="formula-equation" class="font-mono text-white text-sm py-1">
-					CGPA = Math.min(10.0, Percentage / 9.5)
+				
+				<div class="flex flex-col gap-1.5 bg-black/40 border border-vercel-border/60 p-3 rounded sm:min-w-[180px] justify-center">
+					<h4 class="text-[10px] uppercase font-mono tracking-wider text-vercel-gray">Status / Class Equivalent</h4>
+					<div id="output-classification" class="text-xs font-semibold text-vercel-light-gray transition-colors">
+						Awaiting input...
+					</div>
 				</div>
-				<p id="formula-description" class="leading-relaxed">
-					Under the CBSE guidelines, the cumulative grade point average (CGPA) is computed by dividing the overall percentage by 9.5. The maximum attainable CGPA is 10.0.
-				</p>
 			</div>
+		</div>
+	</div>
+
+	<!-- Live Outputs: Right Column -->
+	<div class="w-full lg:w-2/5 flex flex-col gap-6">
+		<!-- Formula/Scale Details Card -->
+		<div id="formula-details-box" class="vercel-card p-4 sm:p-6 flex flex-col gap-3">
+			<h4 class="text-xs uppercase font-mono tracking-wider text-vercel-gray">Formula Mechanics</h4>
+			<div id="formula-equation" class="font-mono text-white text-sm py-2 border-b border-vercel-border/50">
+				CGPA = Math.min(10.0, Percentage / 9.5)
+			</div>
+			<p id="formula-description" class="text-xs text-vercel-light-gray leading-relaxed">
+				Under the CBSE guidelines, the cumulative grade point average (CGPA) is computed by dividing the overall percentage by 9.5. The maximum attainable CGPA is 10.0.
+			</p>
 		</div>
 
 		<!-- Quick Conversion Reference Card -->
@@ -133,35 +155,6 @@
 						</tr>
 					</tbody>
 				</table>
-			</div>
-		</div>
-	</div>
-
-	<!-- Live Outputs: Right Column -->
-	<div class="w-full lg:w-2/5 flex flex-col gap-6">
-		<!-- Results Analytics Card -->
-		<div class="vercel-card p-4 sm:p-6 flex flex-col gap-6">
-			<!-- Large CGPA/Percentage Display -->
-			<div class="flex flex-col gap-2">
-				<h3 id="output-cgpa-title" class="text-[10px] uppercase font-mono tracking-widest text-vercel-gray flex items-center gap-1.5">
-					Calculated CGPA
-				</h3>
-				<div class="flex items-baseline gap-1">
-					<span id="output-cgpa" class="text-5xl md:text-6xl font-mono font-bold tracking-tighter text-white transition-all duration-150">0.00</span>
-					<span id="output-cgpa-suffix" class="text-xl font-mono text-vercel-gray">/ 10.0</span>
-				</div>
-				<span id="output-cgpa-note" class="text-[10px] text-vercel-light-gray font-mono">Please enter a percentage to calculate</span>
-			</div>
-			
-			<!-- Divider -->
-			<div class="h-px bg-vercel-border"></div>
-
-			<!-- Dynamic Equivalency Box -->
-			<div class="flex flex-col gap-1.5">
-				<h4 class="text-[10px] uppercase font-mono tracking-wider text-vercel-gray">Status / Class Equivalent</h4>
-				<div id="output-classification" class="text-sm font-semibold text-vercel-light-gray transition-colors">
-					Awaiting input...
-				</div>
 			</div>
 		</div>
 

@@ -64,6 +64,16 @@ const {
 				--font-mono: 'JetBrains Mono', "Geist Mono", "SFMono-Regular", Consolas, monospace;
 			}
 		</style>
+		
+		<!-- Prevent indexing on Cloudflare Pages preview subdomains (.pages.dev) -->
+		<script is:inline>
+			if (window.location.hostname.endsWith('.pages.dev')) {
+				const meta = document.createElement('meta');
+				meta.name = 'robots';
+				meta.content = 'noindex, nofollow';
+				document.head.appendChild(meta);
+			}
+		</script>
 	</head>
 	<body class="bg-vercel-black text-white bg-grid-dots font-sans min-h-screen flex flex-col selection:bg-white selection:text-black">
 		<slot />

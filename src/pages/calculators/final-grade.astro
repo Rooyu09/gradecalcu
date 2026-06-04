@@ -1,0 +1,303 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+
+// SEO details for the Final Grade Calculator page
+const title = "Final Grade Calculator - What Score Do I Need? | GradeCalcu";
+const description = "Calculate exactly what score you need on your final exam to achieve your desired overall class grade. Enter your current grade, target grade, and final exam weight.";
+const keywords = "final grade calculator, what score do i need on final exam, final exam calculator, grade predictor, class grade calculator";
+const canonicalUrl = "https://gradecalcu.com/calculators/final-grade";
+---
+
+<DashboardLayout 
+	title={title} 
+	description={description} 
+	keywords={keywords} 
+	canonicalUrl={canonicalUrl}
+	activeTab="none"
+>
+	<!-- Final Grade Calculator Container -->
+	<div class="flex flex-col lg:flex-row gap-8 items-start">
+		<!-- Input Card -->
+		<div class="w-full lg:w-3/5 flex flex-col gap-6">
+			<div class="vercel-card p-6 flex flex-col gap-5">
+				<div class="flex flex-col gap-1">
+					<h2 class="text-xl font-bold tracking-tight text-white">Final Exam Predictor</h2>
+					<p class="text-xs text-vercel-light-gray">
+						Specify your academic standing to determine the exact score required on your upcoming final.
+					</p>
+				</div>
+
+				<div class="flex flex-col gap-4">
+					<!-- Current Class Grade -->
+					<div class="flex flex-col gap-1.5">
+						<label class="text-xs font-mono uppercase tracking-wider text-vercel-gray" for="current-grade">
+							Current Class Grade (%)
+						</label>
+						<div class="relative">
+							<input 
+								type="number" 
+								id="current-grade" 
+								placeholder="e.g. 85" 
+								min="0" max="200" step="any"
+								value="85"
+								class="w-full vercel-input pr-8"
+							/>
+							<span class="absolute right-3 top-2.5 text-sm font-mono text-vercel-gray pointer-events-none">%</span>
+						</div>
+					</div>
+
+					<!-- Target Grade -->
+					<div class="flex flex-col gap-1.5">
+						<label class="text-xs font-mono uppercase tracking-wider text-vercel-gray" for="target-grade">
+							Target Overall Grade (%)
+						</label>
+						<div class="relative">
+							<input 
+								type="number" 
+								id="target-grade" 
+								placeholder="e.g. 90" 
+								min="0" max="200" step="any"
+								value="90"
+								class="w-full vercel-input pr-8"
+							/>
+							<span class="absolute right-3 top-2.5 text-sm font-mono text-vercel-gray pointer-events-none">%</span>
+						</div>
+					</div>
+
+					<!-- Final Weight -->
+					<div class="flex flex-col gap-1.5">
+						<label class="text-xs font-mono uppercase tracking-wider text-vercel-gray" for="final-weight">
+							Final Exam Weight (%)
+						</label>
+						<div class="relative">
+							<input 
+								type="number" 
+								id="final-weight" 
+								placeholder="e.g. 20" 
+								min="0.1" max="100" step="any"
+								value="20"
+								class="w-full vercel-input pr-8"
+							/>
+							<span class="absolute right-3 top-2.5 text-sm font-mono text-vercel-gray pointer-events-none">%</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- Live Analytics Panel -->
+		<div class="w-full lg:w-2/5 flex flex-col gap-6">
+			<div class="vercel-card p-6 flex flex-col gap-5 relative overflow-hidden">
+				<!-- Subtle Glass Accent Glow -->
+				<div class="absolute -right-16 -top-16 w-32 h-32 bg-white/[0.02] rounded-full blur-2xl pointer-events-none"></div>
+
+				<h2 class="text-xs uppercase font-mono tracking-widest text-vercel-gray flex items-center gap-1.5">
+					<span class="w-1.5 h-1.5 bg-white rounded-full"></span>
+					Target Calculation
+				</h2>
+
+				<!-- Live Required Grade Score Container -->
+				<div id="output-card" class="bg-black/40 border border-vercel-border p-5 rounded flex flex-col gap-1 transition-all duration-300">
+					<span id="output-label" class="text-[10px] uppercase font-mono tracking-wider text-vercel-gray">Score Needed on Final Exam</span>
+					<div class="flex items-baseline gap-1">
+						<span id="output-score" class="text-4xl font-mono font-bold text-white">—</span>
+						<span class="text-xl font-mono text-vercel-gray">%</span>
+					</div>
+					<p id="output-note" class="text-[10px] text-vercel-light-gray mt-1 leading-relaxed"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Programmatic SEO Below-the-fold Content -->
+	<div slot="seo-content" class="prose prose-invert max-w-none flex flex-col gap-8 text-vercel-light-gray">
+		<section class="flex flex-col gap-4">
+			<h2 class="text-2xl font-bold tracking-tight text-white">How to Calculate Needed Final Exam Grade</h2>
+			<p class="text-sm leading-relaxed">
+				When you want to know what grade you need on your final exam to secure a specific target grade in a class, you use the final exam formula. This is a simple algebra problem that solves for the missing variable based on your current class average, the final exam weight, and your desired target grade.
+			</p>
+			
+			<div class="bg-black/50 border border-vercel-border p-5 rounded font-mono text-xs flex flex-col gap-3 my-2 text-center text-white overflow-x-auto scrollbar-none">
+				<div class="text-white font-bold border-b border-vercel-border pb-2 mb-2">
+					THE FINAL GRADE FORMULA
+				</div>
+				{"$$Required\\,Final\\,Score = \\frac{Target\\,Grade - [Current\\,Grade \\times (1 - WeightDecimal)]}{WeightDecimal}$$"}
+				<p class="text-[10px] text-vercel-gray mt-1">
+					Where <em>WeightDecimal</em> is the final exam percentage weight divided by 100.
+				</p>
+			</div>
+		</section>
+
+		<section class="flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Step-by-Step Calculation Example</h3>
+			<p class="text-sm leading-relaxed">
+				Let's calculate what score you need if your current grade is <strong>85%</strong>, your target grade is <strong>90%</strong>, and the final exam represents <strong>20%</strong> of your overall grade:
+			</p>
+			<ol class="list-decimal list-inside text-sm pl-2 flex flex-col gap-2">
+				<li>
+					Convert the final exam weight to a decimal: <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">20% = 0.20</code>.
+				</li>
+				<li>
+					Calculate the remaining weight (the weight of your coursework so far): <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">1 - 0.20 = 0.80</code>.
+				</li>
+				<li>
+					Multiply your current grade by the remaining weight: <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">85 &times; 0.80 = 68%</code>. This is the amount of grade points you have already secured.
+				</li>
+				<li>
+					Subtract your secured points from your target grade: <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">90 - 68 = 22%</code>. This is the grade point amount you need to get on the final exam.
+				</li>
+				<li>
+					Divide by the final exam weight to get the percentage score needed: <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">22 / 0.20 = 110%</code>.
+				</li>
+			</ol>
+			<p class="text-sm leading-relaxed">
+				In this case, you need to score a <strong>110%</strong> on the final exam, meaning you need to earn extra credit to hit your overall grade target.
+			</p>
+		</section>
+
+		<!-- Crawlable FAQ Schema -->
+		<section class="border-t border-vercel-border/50 pt-8 flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Frequently Asked Questions (FAQ)</h3>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">How does the final exam calculator work?</h4>
+					<p class="text-xs leading-relaxed">
+						It subtracts the grade points you have already earned from your desired target grade, and then divides that value by the percentage weight of the final exam.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Can I get a negative score on my final exam?</h4>
+					<p class="text-xs leading-relaxed">
+						If your current grade is high enough that you have already secured your target grade, the required score will calculate as 0% or negative. Our calculator handles this by showing you are in the "Safe Zone" and can score a 0% and still hit your target.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">What if the required score is higher than 100%?</h4>
+					<p class="text-xs leading-relaxed">
+						This means it is mathematically impossible to reach your target grade without earning extra credit or negotiating with your teacher for additional grade weight.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Are my grades saved?</h4>
+					<p class="text-xs leading-relaxed">
+						No, your grade information is processed 100% client-side inside your browser and is never uploaded or saved to any database.
+					</p>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- JSON-LD FAQ Schema for Search Engines -->
+	<script type="application/ld+json" slot="seo-content">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{
+					"@type": "Question",
+					"name": "How does the final exam calculator work?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "It subtracts the grade points you have already earned from your desired target grade, and then divides that value by the percentage weight of the final exam."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Can I get a negative score on my final exam?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "If your current grade is high enough that you have already secured your target grade, the required score will calculate as 0% or negative. Our calculator handles this by showing you are in the 'Safe Zone' and can score a 0% and still hit your target."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "What if the required score is higher than 100%?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "This means it is mathematically impossible to reach your target grade without earning extra credit or negotiating with your teacher for additional grade weight."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Are my grades saved?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "No, your grade information is processed 100% client-side inside your browser and is never uploaded or saved to any database."
+					}
+				}
+			]
+		}
+	</script>
+</DashboardLayout>
+
+<script>
+	function initFinalCalculator() {
+		const currentInput = document.getElementById('current-grade') as HTMLInputElement;
+		const targetInput = document.getElementById('target-grade') as HTMLInputElement;
+		const weightInput = document.getElementById('final-weight') as HTMLInputElement;
+		
+		const outputCard = document.getElementById('output-card');
+		const outputLabel = document.getElementById('output-label');
+		const outputScore = document.getElementById('output-score');
+		const outputNote = document.getElementById('output-note');
+
+		if (!currentInput || !targetInput || !weightInput || !outputCard || !outputLabel || !outputScore || !outputNote) return;
+
+		function calculate() {
+			const current = parseFloat(currentInput.value);
+			const target = parseFloat(targetInput.value);
+			const weight = parseFloat(weightInput.value);
+
+			// Validate inputs and guard against division by zero/negative weight
+			if (isNaN(current) || isNaN(target) || isNaN(weight) || weight <= 0) {
+				outputScore!.textContent = "—";
+				outputLabel!.textContent = "Final Exam Predictor";
+				outputLabel!.className = "text-[10px] uppercase font-mono tracking-wider text-vercel-gray";
+				outputNote!.textContent = "Please enter valid numeric values for all fields.";
+				outputNote!.className = "text-[10px] text-vercel-light-gray mt-1 leading-relaxed";
+				outputCard!.className = "bg-black/40 border border-vercel-border p-5 rounded flex flex-col gap-1 transition-all duration-300";
+				return;
+			}
+
+			const weightDecimal = weight / 100;
+			const requiredScore = (target - (current * (1 - weightDecimal))) / weightDecimal;
+
+			// Update elements
+			outputScore!.textContent = requiredScore.toFixed(2) + "%";
+
+			if (requiredScore > 100) {
+				outputCard!.className = "bg-red-950/20 border border-red-500/30 p-5 rounded flex flex-col gap-1 transition-all duration-300";
+				outputLabel!.textContent = "Extra Credit Required";
+				outputLabel!.className = "text-[10px] uppercase font-mono tracking-wider text-red-400";
+				outputNote!.textContent = `To hit your target, you'll need to score above a 100% (${requiredScore.toFixed(2)}%) or ask your instructor for extra credit opportunities.`;
+				outputNote!.className = "text-[10px] text-red-400 mt-1 leading-relaxed font-mono";
+			} else if (requiredScore <= 0) {
+				outputCard!.className = "bg-emerald-950/20 border border-emerald-500/30 p-5 rounded flex flex-col gap-1 transition-all duration-300";
+				outputLabel!.textContent = "Safe Zone Secured";
+				outputLabel!.className = "text-[10px] uppercase font-mono tracking-wider text-emerald-400";
+				outputScore!.textContent = "0.00%";
+				outputNote!.textContent = `You have mathematically already locked in your target grade! You can score a 0% on this exam and still maintain your desired target.`;
+				outputNote!.className = "text-[10px] text-emerald-400 mt-1 leading-relaxed font-mono";
+			} else {
+				outputCard!.className = "bg-black/40 border border-vercel-border p-5 rounded flex flex-col gap-1 transition-all duration-300";
+				outputLabel!.textContent = "Required Score Needed";
+				outputLabel!.className = "text-[10px] uppercase font-mono tracking-wider text-vercel-gray";
+				outputNote!.textContent = `Maintain focus! Secure a minimum score of ${requiredScore.toFixed(2)}% on your upcoming exam to stabilize your target class average.`;
+				outputNote!.className = "text-[10px] text-vercel-light-gray mt-1 leading-relaxed";
+			}
+		}
+
+		// Attach real-time input event tracking for continuous calculations
+		[currentInput, targetInput, weightInput].forEach(input => {
+			input?.addEventListener('input', calculate);
+		});
+
+		// Trigger initial calculation
+		calculate();
+	}
+
+	// Initialize on page load and view transition cycles
+	initFinalCalculator();
+	document.addEventListener('astro:page-load', initFinalCalculator);
+</script>

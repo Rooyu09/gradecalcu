@@ -1,0 +1,98 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+
+// SEO Metadata for the Converters Category Silo Hub
+const metadata = {
+  title: "Academic Grade Converters | GPA, CGPA & Percentages - GradeCalcu",
+  description: "Free academic conversion tools. Translate CGPA to percentage scores, convert raw percentages back to a 4.0 GPA scale, and switch between regional standards instantly.",
+  keywords: "cgpa to percentage, percentage to cgpa, gpa to percentage converter, grade conversion calculator, convert grades",
+  canonicalUrl: "https://gradecalcu.com/converters/"
+};
+
+// Data array for our specific conversion tools
+const converterTools = [
+  {
+    title: "CGPA to Percentage Converter",
+    description: "Translate your cumulative grade point average into an accurate overall percentage score based on common global university formulas.",
+    href: "/converters/cgpa-to-percentage/",
+    badge: "Core",
+    badgeColor: "border-blue-500/30 text-blue-400 bg-blue-950/20"
+  },
+  {
+    title: "Percentage to CGPA Converter",
+    description: "Reverse engineer your raw aggregate class percentage back into a standardized cumulative 10.0 or 4.0 GPA equivalent.",
+    href: "/converters/percentage-to-cgpa/",
+    badge: "Active",
+    badgeColor: "border-emerald-500/30 text-emerald-400 bg-emerald-950/20"
+  },
+  {
+    title: "GPA to Percentage Converter",
+    description: "Convert a standard US 4.0 scale semester grade point average into its linear percentage or percentile bracket.",
+    href: "/converters/gpa-to-percentage/",
+    badge: "Active",
+    badgeColor: "border-emerald-500/30 text-emerald-400 bg-emerald-950/20"
+  }
+];
+---
+
+<DashboardLayout {...metadata} activeTab="none">
+  <div class="w-full max-w-4xl mx-auto px-4 py-8">
+    
+    <!-- Breadcrumb Navigation for Silo Structure -->
+    <nav class="flex items-center gap-2 text-xs font-mono text-vercel-gray mb-6">
+      <a href="/" class="hover:text-white transition-colors">home</a>
+      <span>/</span>
+      <span class="text-vercel-light-gray">converters</span>
+    </nav>
+
+    <!-- Hub Header Section -->
+    <header class="mb-12">
+      <h1 class="text-3xl md:text-4xl font-bold tracking-tight text-white mb-3">
+        Grade Conversion Tools
+      </h1>
+      <p class="text-base text-vercel-light-gray max-w-2xl leading-relaxed">
+        Different institutions use wildly divergent grading parameters. Select a specialized module below to seamlessly translate scores between scales, percentages, and global benchmarks.
+      </p>
+    </header>
+
+    <!-- Interactive Tool Grid Layout -->
+    <div class="grid gap-6 sm:grid-cols-2">
+      {converterTools.map((tool) => (
+        <a 
+          href={tool.href} 
+          class="vercel-card block p-6 group transition-all duration-200 hover:border-vercel-light-gray"
+        >
+          <div class="flex items-start justify-between gap-4 mb-3">
+            <h2 class="text-lg font-semibold text-white group-hover:text-blue-400 transition-colors duration-200">
+              {tool.title}
+            </h2>
+            <span class={`inline-block px-2.5 py-0.5 rounded-full text-[10px] font-mono border ${tool.badgeColor}`}>
+              {tool.badge}
+            </span>
+          </div>
+          <p class="text-sm text-vercel-light-gray leading-relaxed">
+            {tool.description}
+          </p>
+          
+          <div class="mt-4 flex items-center gap-1 text-xs font-mono text-vercel-gray group-hover:text-blue-400 transition-colors duration-200">
+            Open converter 
+            <span class="transform group-hover:translate-x-1 transition-transform duration-200">→</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <!-- Informational SEO Anchor Block -->
+  <div slot="seo-content" class="prose prose-invert max-w-none flex flex-col gap-6 text-vercel-light-gray">
+    <section class="flex flex-col gap-4">
+      <h2 class="text-xl font-bold text-white">Why are grade conversion algorithms necessary?</h2>
+      <p class="text-sm leading-relaxed">
+        Academic transparency requires standardization. For example, a student transitioning from an international grading system using a 10.0 CGPA matrix or a linear percentage framework needs precise mathematical maps to apply to universities running a traditional US 4.0 weighted GPA scale.
+      </p>
+      <p class="text-sm leading-relaxed">
+        Our tools handle common standard equations—including the popular linear scaling models and weighted distribution curves—completely on the client side. By executing calculations instantly inside your browser thread, your transcripts remain completely private and confidential.
+      </p>
+    </section>
+  </div>
+</DashboardLayout>

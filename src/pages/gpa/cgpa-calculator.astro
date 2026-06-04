@@ -1,0 +1,447 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+
+// SEO details for the CGPA Calculator page
+const title = "CGPA Calculator | Cumulative Grade Point Average Engine - GradeCalcu";
+const description = "Combine multiple semesters to compute your overall Cumulative Grade Point Average (CGPA). Weight semesters accurately by total credit hours.";
+const keywords = "cgpa calculator, cumulative gpa calculator, cumulative grade point average, semester gpa hub, gpa scale, credit weighted average";
+const canonicalUrl = "https://gradecalcu.com/gpa/cgpa-calculator/";
+---
+
+<DashboardLayout 
+	title={title} 
+	description={description} 
+	keywords={keywords} 
+	canonicalUrl={canonicalUrl}
+	activeTab="cgpa"
+>
+	<!-- Breadcrumb Navigation -->
+	<nav class="flex items-center gap-2 text-xs font-mono text-vercel-gray mb-6">
+		<a href="/" class="hover:text-white transition-colors">home</a>
+		<span>/</span>
+		<a href="/gpa/" class="hover:text-white transition-colors">gpa</a>
+		<span>/</span>
+		<span class="text-vercel-light-gray">cgpa calculator</span>
+	</nav>
+
+	<div class="flex flex-col lg:flex-row gap-8 items-start">
+		<!-- Calculator Inputs Matrix -->
+		<div class="w-full lg:w-3/5 flex flex-col gap-6">
+			<div class="vercel-card p-4 sm:p-6 flex flex-col gap-4">
+				<div class="flex items-center justify-between">
+					<h2 class="text-xl font-bold tracking-tight text-white">Semesters Stack</h2>
+					<button 
+						id="btn-add-semester" 
+						class="vercel-button-secondary text-xs flex items-center gap-1.5 py-1.5 px-3"
+						type="button"
+					>
+						<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+						</svg>
+						Add Semester
+					</button>
+				</div>
+
+				<!-- Matrix Table -->
+				<div class="overflow-x-auto scrollbar-none">
+					<table class="w-full text-left border-collapse">
+						<thead>
+							<tr class="border-b border-vercel-border text-xs text-vercel-gray uppercase font-mono tracking-wider">
+								<th class="pb-3 font-medium">Semester Name</th>
+								<th class="pb-3 font-medium w-24 sm:w-32 text-right">GPA (0.00-4.00)</th>
+								<th class="pb-3 font-medium w-24 sm:w-32 text-right">Credits</th>
+								<th class="pb-3 w-8 sm:w-12"></th>
+							</tr>
+						</thead>
+						<tbody id="cgpa-table-body" class="divide-y divide-vercel-border/50">
+							<!-- Semester 1 -->
+							<tr class="group table-row-item">
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="text" 
+										placeholder="e.g., Freshman Fall" 
+										class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+										value="Freshman Fall"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="number" 
+										placeholder="3.50" 
+										min="0" 
+										max="4.0" 
+										step="any"
+										class="w-full vercel-input row-gpa-val py-1.5 px-1.5 sm:px-2 text-right"
+										value="3.50"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="number" 
+										placeholder="15" 
+										min="0" 
+										max="100" 
+										step="any"
+										class="w-full vercel-input row-credits-val py-1.5 px-1.5 sm:px-2 text-right"
+										value="15"
+									/>
+								</td>
+								<td class="py-3 text-right">
+									<button 
+										class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+										aria-label="Delete semester row"
+									>
+										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+										</svg>
+									</button>
+								</td>
+							</tr>
+							<!-- Semester 2 -->
+							<tr class="group table-row-item">
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="text" 
+										placeholder="e.g., Freshman Spring" 
+										class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+										value="Freshman Spring"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="number" 
+										placeholder="3.80" 
+										min="0" 
+										max="4.0" 
+										step="any"
+										class="w-full vercel-input row-gpa-val py-1.5 px-1.5 sm:px-2 text-right"
+										value="3.80"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="number" 
+										placeholder="15" 
+										min="0" 
+										max="100" 
+										step="any"
+										class="w-full vercel-input row-credits-val py-1.5 px-1.5 sm:px-2 text-right"
+										value="15"
+									/>
+								</td>
+								<td class="py-3 text-right">
+									<button 
+										class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+										aria-label="Delete semester row"
+									>
+										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+										</svg>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- Output Analytics Panel -->
+		<div class="w-full lg:w-2/5 flex flex-col gap-6">
+			<!-- Live Summary Metrics Card -->
+			<div class="vercel-card p-4 sm:p-6 flex flex-col gap-5">
+				<h2 class="text-xs uppercase font-mono tracking-widest text-vercel-gray">Live Cumulative CGPA</h2>
+				
+				<div class="flex flex-col gap-4">
+					<!-- CGPA Output -->
+					<div class="flex flex-col gap-1">
+						<span class="text-xs text-vercel-light-gray font-medium">Computed CGPA</span>
+						<div class="flex items-baseline gap-1">
+							<span id="cgpa-output" class="text-4xl md:text-5xl font-mono font-bold tracking-tight text-white">3.65</span>
+							<span class="text-xl font-mono text-vercel-gray">/ 4.0</span>
+						</div>
+						<span id="cgpa-standing" class="text-xs text-vercel-gray font-mono">Academic Standing: Dean's List / Honors</span>
+					</div>
+					
+					<!-- Divider -->
+					<div class="h-px bg-vercel-border"></div>
+
+					<!-- Credits Detail -->
+					<div class="flex flex-col gap-0.5">
+						<span class="text-[11px] text-vercel-light-gray font-medium">Total Cumulative Credits</span>
+						<span id="total-credits-output" class="text-lg font-mono font-semibold text-white">30.0</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Quick Info Card -->
+			<div class="vercel-card p-4 sm:p-6 border border-vercel-border flex flex-col gap-2">
+				<h3 class="text-xs uppercase font-mono tracking-wider text-vercel-gray">CGPA Calculation Note</h3>
+				<p class="text-xs text-vercel-light-gray leading-relaxed">
+					Semester GPA averages must be weighted by total attempted credits. A simple average of semester GPAs is mathematically incorrect unless credit hours are identical.
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Programmatic SEO Below-the-fold Content -->
+	<div slot="seo-content" class="prose prose-invert max-w-none flex flex-col gap-8 text-vercel-light-gray">
+		<section class="flex flex-col gap-4">
+			<h2 class="text-2xl font-bold tracking-tight text-white">How to Calculate Cumulative CGPA</h2>
+			<p class="text-sm leading-relaxed">
+				To calculate your Cumulative Grade Point Average (CGPA) across multiple semesters, you cannot simply average your semester GPAs. If your semester credits vary, you must weight each semester's GPA by the number of credit hours earned in that semester.
+			</p>
+			
+			<div class="bg-black/50 border border-vercel-border p-5 rounded font-mono text-xs flex flex-col gap-3 my-2 text-center text-white overflow-x-auto scrollbar-none">
+				<div class="text-white font-bold border-b border-vercel-border pb-2 mb-2">
+					THE WEIGHTED CGPA FORMULA
+				</div>
+				{"$$CGPA = \\frac{\\sum (Semester\\,GPA \\times Semester\\,Credits)}{\\sum Semester\\,Credits}$$"}
+			</div>
+		</section>
+
+		<section class="flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Step-by-Step Calculation Example</h3>
+			<p class="text-sm leading-relaxed">
+				Suppose you completed your freshman year with the following stats:
+			</p>
+			<ul class="list-disc list-inside text-sm pl-2 flex flex-col gap-1.5">
+				<li><strong>Semester 1 (Fall):</strong> GPA 3.50 &times; 15 credits = 52.50 quality grade points</li>
+				<li><strong>Semester 2 (Spring):</strong> GPA 3.80 &times; 15 credits = 57.00 quality grade points</li>
+			</ul>
+			<p class="text-sm leading-relaxed">
+				To compute your cumulative standing:
+			</p>
+			<ol class="list-decimal list-inside text-sm pl-2 flex flex-col gap-2">
+				<li>
+					Multiply each GPA by its credits, then sum the points: <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">52.50 + 57.00 = 109.50</code>.
+				</li>
+				<li>
+					Sum the credits attempted: <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">15 + 15 = 30</code>.
+				</li>
+				<li>
+					Divide total points by total credits: <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">109.50 / 30 = 3.65</code>.
+				</li>
+			</ol>
+			<p class="text-sm leading-relaxed">
+				Your final credit-weighted Cumulative Grade Point Average is <strong>3.65</strong>.
+			</p>
+		</section>
+
+		<!-- Crawlable FAQ Schema -->
+		<section class="border-t border-vercel-border/50 pt-8 flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Frequently Asked Questions (FAQ)</h3>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Why does credit hours affect my Cumulative GPA?</h4>
+					<p class="text-xs leading-relaxed">
+						Credits reflect semester workload. A 18-credit term impacts your cumulative average 1.5 times as much as a 12-credit term.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">What is a good CGPA?</h4>
+					<p class="text-xs leading-relaxed">
+						Generally, a CGPA above 3.0 represents a solid "B" average. Competitive universities and graduate schools look for candidates with a 3.5 CGPA or higher.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Can I combine GPAs with different credit limits?</h4>
+					<p class="text-xs leading-relaxed">
+						Yes, our formula automatically weights semesters based on credit hours, resolving scaling differences.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Are transfer credits calculated?</h4>
+					<p class="text-xs leading-relaxed">
+						Transfer courses count as completed hours, but in most cases, their grade point values are excluded from your institutional cumulative GPA calculation.
+					</p>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- JSON-LD FAQ Schema for Search Engines -->
+	<script type="application/ld+json" slot="seo-content">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{
+					"@type": "Question",
+					"name": "Why does credit hours affect my Cumulative GPA?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Credits reflect semester workload. A 18-credit term impacts your cumulative average 1.5 times as much as a 12-credit term."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "What is a good CGPA?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Generally, a CGPA above 3.0 represents a solid 'B' average. Competitive universities and graduate schools look for candidates with a 3.5 CGPA or higher."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Can I combine GPAs with different credit limits?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Yes, our formula automatically weights semesters based on credit hours, resolving scaling differences."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Are transfer credits calculated?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Transfer courses count as completed hours, but in most cases, their grade point values are excluded from your institutional cumulative GPA calculation."
+					}
+				}
+			]
+		}
+	</script>
+</DashboardLayout>
+
+<script>
+	function initCgpaCalculator() {
+		const tableBody = document.getElementById('cgpa-table-body');
+		const btnAddSemester = document.getElementById('btn-add-semester');
+		const cgpaOutput = document.getElementById('cgpa-output');
+		const cgpaStanding = document.getElementById('cgpa-standing');
+		const totalCreditsOutput = document.getElementById('total-credits-output');
+
+		if (!tableBody || !cgpaOutput || !totalCreditsOutput) return;
+
+		// Calculate Cumulative CGPA
+		function calculate() {
+			const rows = tableBody!.querySelectorAll('tr');
+			let totalCredits = 0;
+			let totalPoints = 0;
+
+			rows.forEach(row => {
+				const gpaInput = row.querySelector('.row-gpa-val') as HTMLInputElement;
+				const creditsInput = row.querySelector('.row-credits-val') as HTMLInputElement;
+
+				if (gpaInput && creditsInput) {
+					const gpa = parseFloat(gpaInput.value);
+					const credits = parseFloat(creditsInput.value);
+
+					if (!isNaN(gpa) && !isNaN(credits) && credits > 0) {
+						totalPoints += (gpa * credits);
+						totalCredits += credits;
+					}
+				}
+			});
+
+			const cgpa = totalCredits > 0 ? (totalPoints / totalCredits) : 0;
+
+			// Update DOM
+			cgpaOutput!.textContent = totalCredits > 0 ? cgpa.toFixed(2) : "0.00";
+			totalCreditsOutput!.textContent = totalCredits.toFixed(1);
+
+			// Standing evaluation
+			if (totalCredits === 0) {
+				cgpaStanding!.textContent = "Enter semesters to calculate cumulative average";
+				cgpaStanding!.className = "text-xs text-vercel-gray font-mono";
+			} else if (cgpa >= 3.80) {
+				cgpaStanding!.textContent = "Academic Standing: Summa Cum Laude / High Honors";
+				cgpaStanding!.className = "text-xs text-emerald-400 font-mono";
+			} else if (cgpa >= 3.50) {
+				cgpaStanding!.textContent = "Academic Standing: Dean's List / Honors";
+				cgpaStanding!.className = "text-xs text-blue-400 font-mono";
+			} else if (cgpa >= 2.00) {
+				cgpaStanding!.textContent = "Academic Standing: Satisfactory Standing";
+				cgpaStanding!.className = "text-xs text-vercel-light-gray font-mono";
+			} else {
+				cgpaStanding!.textContent = "Academic Standing: Academic Warning (< 2.00)";
+				gpaStanding?.classList.add('text-red-400');
+				cgpaStanding!.className = "text-xs text-red-400 font-mono";
+			}
+		}
+
+		// Event Delegation
+		tableBody.addEventListener('input', calculate);
+
+		// Delete Row handler
+		tableBody.addEventListener('click', (e) => {
+			const target = e.target as HTMLElement;
+			const deleteBtn = target.closest('.btn-delete-row');
+			
+			if (deleteBtn) {
+				const row = deleteBtn.closest('tr');
+				if (row) {
+					// Don't delete if it's the last remaining row
+					if (tableBody.querySelectorAll('tr').length > 1) {
+						row.remove();
+						calculate();
+					} else {
+						// Just clear inputs
+						const textInput = row.querySelector('input[type="text"]') as HTMLInputElement;
+						const gpaInput = row.querySelector('.row-gpa-val') as HTMLInputElement;
+						const creditsInput = row.querySelector('.row-credits-val') as HTMLInputElement;
+						if (textInput) textInput.value = '';
+						if (gpaInput) gpaInput.value = '';
+						if (creditsInput) creditsInput.value = '';
+						calculate();
+					}
+				}
+			}
+		});
+
+		// Add Semester handler
+		btnAddSemester?.addEventListener('click', () => {
+			const tr = document.createElement('tr');
+			tr.className = 'group table-row-item border-t border-vercel-border/50';
+			tr.innerHTML = `
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="text" 
+						placeholder="e.g., Semester Name" 
+						class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+					/>
+				</td>
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="number" 
+						placeholder="3.50" 
+						min="0" 
+						max="4.0" 
+						step="any"
+						class="w-full vercel-input row-gpa-val py-1.5 px-1.5 sm:px-2 text-right"
+					/>
+				</td>
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="number" 
+						placeholder="15" 
+						min="0" 
+						max="100" 
+						step="any"
+						class="w-full vercel-input row-credits-val py-1.5 px-1.5 sm:px-2 text-right"
+					/>
+				</td>
+				<td class="py-3 text-right">
+					<button 
+						class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+						aria-label="Delete semester row"
+					>
+						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+						</svg>
+					</button>
+				</td>
+			`;
+			tableBody.appendChild(tr);
+			const titleInput = tr.querySelector('input[type="text"]') as HTMLInputElement;
+			titleInput?.focus();
+		});
+
+		// Run Initial Calculation
+		calculate();
+	}
+
+	initCgpaCalculator();
+	document.addEventListener('astro:page-load', initCgpaCalculator);
+</script>

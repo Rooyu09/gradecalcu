@@ -1,0 +1,566 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+
+// SEO details for the GPA Calculator page
+const title = "GPA Calculator | Semester & Term Grade Point Average - GradeCalcu";
+const description = "Calculate your semester or term GPA using credit hours and standard letter grades. Add rows dynamically to manage your course load.";
+const keywords = "gpa calculator, semester gpa calculator, term gpa calculator, college gpa calculator, high school gpa calculator";
+const canonicalUrl = "https://gradecalcu.com/gpa/gpa-calculator/";
+---
+
+<DashboardLayout 
+	title={title} 
+	description={description} 
+	keywords={keywords} 
+	canonicalUrl={canonicalUrl}
+	activeTab="cgpa"
+>
+	<!-- Breadcrumb Navigation -->
+	<nav class="flex items-center gap-2 text-xs font-mono text-vercel-gray mb-6">
+		<a href="/" class="hover:text-white transition-colors">home</a>
+		<span>/</span>
+		<a href="/gpa/" class="hover:text-white transition-colors">gpa</a>
+		<span>/</span>
+		<span class="text-vercel-light-gray">gpa calculator</span>
+	</nav>
+
+	<div class="flex flex-col lg:flex-row gap-8 items-start">
+		<!-- Calculator Inputs Matrix -->
+		<div class="w-full lg:w-3/5 flex flex-col gap-6">
+			<div class="vercel-card p-4 sm:p-6 flex flex-col gap-4">
+				<div class="flex items-center justify-between">
+					<h2 class="text-xl font-bold tracking-tight text-white">Semester Courses</h2>
+					<button 
+						id="btn-add-course" 
+						class="vercel-button-secondary text-xs flex items-center gap-1.5 py-1.5 px-3"
+						type="button"
+					>
+						<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+						</svg>
+						Add Course
+					</button>
+				</div>
+
+				<!-- Matrix Table -->
+				<div class="overflow-x-auto scrollbar-none">
+					<table class="w-full text-left border-collapse">
+						<thead>
+							<tr class="border-b border-vercel-border text-xs text-vercel-gray uppercase font-mono tracking-wider">
+								<th class="pb-3 font-medium">Course Title (Optional)</th>
+								<th class="pb-3 font-medium w-24 sm:w-32">Grade</th>
+								<th class="pb-3 font-medium w-24 sm:w-32 text-right">Credits</th>
+								<th class="pb-3 w-8 sm:w-12"></th>
+							</tr>
+						</thead>
+						<tbody id="gpa-table-body" class="divide-y divide-vercel-border/50">
+							<!-- Course 1 -->
+							<tr class="group table-row-item">
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="text" 
+										placeholder="e.g., English Composition" 
+										class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+										value="English Composition"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<select class="w-full vercel-input row-grade-val py-1 px-1.5 sm:px-2 font-mono bg-black border-vercel-border text-white text-xs sm:text-sm">
+										<option value="4.0" selected>A (4.0)</option>
+										<option value="3.7">A- (3.7)</option>
+										<option value="3.3">B+ (3.3)</option>
+										<option value="3.0">B (3.0)</option>
+										<option value="2.7">B- (2.7)</option>
+										<option value="2.3">C+ (2.3)</option>
+										<option value="2.0">C (2.0)</option>
+										<option value="1.7">C- (1.7)</option>
+										<option value="1.3">D+ (1.3)</option>
+										<option value="1.0">D (1.0)</option>
+										<option value="0.0">F (0.0)</option>
+									</select>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="number" 
+										placeholder="3" 
+										min="0" 
+										max="20" 
+										step="any"
+										class="w-full vercel-input row-credits-val py-1.5 px-1.5 sm:px-2 text-right"
+										value="3"
+									/>
+								</td>
+								<td class="py-3 text-right">
+									<button 
+										class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+										aria-label="Delete course row"
+									>
+										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+										</svg>
+									</button>
+								</td>
+							</tr>
+							<!-- Course 2 -->
+							<tr class="group table-row-item">
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="text" 
+										placeholder="e.g., Calculus I" 
+										class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+										value="Calculus I"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<select class="w-full vercel-input row-grade-val py-1 px-1.5 sm:px-2 font-mono bg-black border-vercel-border text-white text-xs sm:text-sm">
+										<option value="4.0">A (4.0)</option>
+										<option value="3.7">A- (3.7)</option>
+										<option value="3.3" selected>B+ (3.3)</option>
+										<option value="3.0">B (3.0)</option>
+										<option value="2.7">B- (2.7)</option>
+										<option value="2.3">C+ (2.3)</option>
+										<option value="2.0">C (2.0)</option>
+										<option value="1.7">C- (1.7)</option>
+										<option value="1.3">D+ (1.3)</option>
+										<option value="1.0">D (1.0)</option>
+										<option value="0.0">F (0.0)</option>
+									</select>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="number" 
+										placeholder="4" 
+										min="0" 
+										max="20" 
+										step="any"
+										class="w-full vercel-input row-credits-val py-1.5 px-1.5 sm:px-2 text-right"
+										value="4"
+									/>
+								</td>
+								<td class="py-3 text-right">
+									<button 
+										class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+										aria-label="Delete course row"
+									>
+										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+										</svg>
+									</button>
+								</td>
+							</tr>
+							<!-- Course 3 -->
+							<tr class="group table-row-item">
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="text" 
+										placeholder="e.g., General Chemistry" 
+										class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+										value="General Chemistry"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<select class="w-full vercel-input row-grade-val py-1 px-1.5 sm:px-2 font-mono bg-black border-vercel-border text-white text-xs sm:text-sm">
+										<option value="4.0">A (4.0)</option>
+										<option value="3.7" selected>A- (3.7)</option>
+										<option value="3.3">B+ (3.3)</option>
+										<option value="3.0">B (3.0)</option>
+										<option value="2.7">B- (2.7)</option>
+										<option value="2.3">C+ (2.3)</option>
+										<option value="2.0">C (2.0)</option>
+										<option value="1.7">C- (1.7)</option>
+										<option value="1.3">D+ (1.3)</option>
+										<option value="1.0">D (1.0)</option>
+										<option value="0.0">F (0.0)</option>
+									</select>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="number" 
+										placeholder="4" 
+										min="0" 
+										max="20" 
+										step="any"
+										class="w-full vercel-input row-credits-val py-1.5 px-1.5 sm:px-2 text-right"
+										value="4"
+									/>
+								</td>
+								<td class="py-3 text-right">
+									<button 
+										class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+										aria-label="Delete course row"
+									>
+										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+										</svg>
+									</button>
+								</td>
+							</tr>
+							<!-- Course 4 -->
+							<tr class="group table-row-item">
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="text" 
+										placeholder="e.g., Intro to History" 
+										class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+										value="Intro to History"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<select class="w-full vercel-input row-grade-val py-1 px-1.5 sm:px-2 font-mono bg-black border-vercel-border text-white text-xs sm:text-sm">
+										<option value="4.0">A (4.0)</option>
+										<option value="3.7">A- (3.7)</option>
+										<option value="3.3">B+ (3.3)</option>
+										<option value="3.0" selected>B (3.0)</option>
+										<option value="2.7">B- (2.7)</option>
+										<option value="2.3">C+ (2.3)</option>
+										<option value="2.0">C (2.0)</option>
+										<option value="1.7">C- (1.7)</option>
+										<option value="1.3">D+ (1.3)</option>
+										<option value="1.0">D (1.0)</option>
+										<option value="0.0">F (0.0)</option>
+									</select>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="number" 
+										placeholder="3" 
+										min="0" 
+										max="20" 
+										step="any"
+										class="w-full vercel-input row-credits-val py-1.5 px-1.5 sm:px-2 text-right"
+										value="3"
+									/>
+								</td>
+								<td class="py-3 text-right">
+									<button 
+										class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+										aria-label="Delete course row"
+									>
+										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+										</svg>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+
+		<!-- Output Analytics Panel -->
+		<div class="w-full lg:w-2/5 flex flex-col gap-6">
+			<!-- Live Summary Metrics Card -->
+			<div class="vercel-card p-4 sm:p-6 flex flex-col gap-5">
+				<h2 class="text-xs uppercase font-mono tracking-widest text-vercel-gray">Live GPA Calculation</h2>
+				
+				<div class="flex flex-col gap-4">
+					<!-- GPA Output -->
+					<div class="flex flex-col gap-1">
+						<span class="text-xs text-vercel-light-gray font-medium">Computed Semester GPA</span>
+						<div class="flex items-baseline gap-1">
+							<span id="gpa-output" class="text-4xl md:text-5xl font-mono font-bold tracking-tight text-white">3.50</span>
+							<span class="text-xl font-mono text-vercel-gray">/ 4.0</span>
+						</div>
+						<span id="gpa-standing" class="text-xs text-vercel-gray font-mono">Academic Standing: Dean's List / Honors</span>
+					</div>
+					
+					<!-- Divider -->
+					<div class="h-px bg-vercel-border"></div>
+
+					<!-- Credits Detail -->
+					<div class="flex flex-col gap-0.5">
+						<span class="text-[11px] text-vercel-light-gray font-medium">Total Credit Hours</span>
+						<span id="total-credits-output" class="text-lg font-mono font-semibold text-white">14.0</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Quick Info Card -->
+			<div class="vercel-card p-4 sm:p-6 border border-vercel-border flex flex-col gap-2">
+				<h3 class="text-xs uppercase font-mono tracking-wider text-vercel-gray">GPA Scale Reference</h3>
+				<div class="grid grid-cols-2 gap-x-4 gap-y-1 text-[11px] text-vercel-light-gray font-mono">
+					<div>A = 4.0</div>
+					<div>C+ = 2.3</div>
+					<div>A- = 3.7</div>
+					<div>C = 2.0</div>
+					<div>B+ = 3.3</div>
+					<div>C- = 1.7</div>
+					<div>B = 3.0</div>
+					<div>D = 1.0</div>
+					<div>B- = 2.7</div>
+					<div>F = 0.0</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Programmatic SEO Below-the-fold Content -->
+	<div slot="seo-content" class="prose prose-invert max-w-none flex flex-col gap-8 text-vercel-light-gray">
+		<section class="flex flex-col gap-4">
+			<h2 class="text-2xl font-bold tracking-tight text-white">How to Calculate Semester GPA Manually</h2>
+			<p class="text-sm leading-relaxed">
+				To calculate your credit-weighted Semester Grade Point Average (GPA), you must multiply the point value of the letter grade received in each course by the credit hours assigned to that course. After summing these grade points, divide the grand total by the sum of all credit hours attempted.
+			</p>
+			
+			<div class="bg-black/50 border border-vercel-border p-5 rounded font-mono text-xs flex flex-col gap-3 my-2 text-center text-white overflow-x-auto scrollbar-none">
+				<div class="text-white font-bold border-b border-vercel-border pb-2 mb-2">
+					THE WEIGHTED GPA FORMULA
+				</div>
+				{"$$GPA = \\frac{\\sum (Grade\\,Value \\times Credit\\,Hours)}{\\sum Credit\\,Hours}$$"}
+			</div>
+		</section>
+
+		<section class="flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Step-by-Step Calculation Example</h3>
+			<p class="text-sm leading-relaxed">
+				Suppose you took the following four courses during your semester:
+			</p>
+			<ul class="list-disc list-inside text-sm pl-2 flex flex-col gap-1.5">
+				<li><strong>English:</strong> Grade A (4.0 points) &times; 3 credits = 12.0 grade points</li>
+				<li><strong>Calculus I:</strong> Grade B+ (3.3 points) &times; 4 credits = 13.2 grade points</li>
+				<li><strong>General Chemistry:</strong> Grade A- (3.7 points) &times; 4 credits = 14.8 grade points</li>
+				<li><strong>Intro to History:</strong> Grade B (3.0 points) &times; 3 credits = 9.0 grade points</li>
+			</ul>
+			<p class="text-sm leading-relaxed">
+				To compute the overall term GPA:
+			</p>
+			<ol class="list-decimal list-inside text-sm pl-2 flex flex-col gap-2">
+				<li>
+					Sum the grade points: <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">12.0 + 13.2 + 14.8 + 9.0 = 49.0</code>.
+				</li>
+				<li>
+					Sum the credit hours: <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">3 + 4 + 4 + 3 = 14</code>.
+				</li>
+				<li>
+					Divide total grade points by total credits: <code class="font-mono text-xs text-white bg-vercel-card px-1 py-0.5 rounded border border-vercel-border">49.0 / 14 = 3.50</code>.
+				</li>
+			</ol>
+			<p class="text-sm leading-relaxed">
+				Your final credit-weighted Semester Grade Point Average is <strong>3.50</strong>, qualifying for honors recognition.
+			</p>
+		</section>
+
+		<!-- Crawlable FAQ Schema -->
+		<section class="border-t border-vercel-border/50 pt-8 flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Frequently Asked Questions (FAQ)</h3>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">What is a credit hour?</h4>
+					<p class="text-xs leading-relaxed">
+						A credit hour represents the academic weight or workload of a course. A standard lecture class is normally worth 3 credits, while labs and intensive math/science classes usually carry 4 credits.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">How does a failing grade impact my GPA?</h4>
+					<p class="text-xs leading-relaxed">
+						An "F" grade contributes 0.0 grade points, but the credit hours are still factored into the denominator. This significantly pulls down your total average.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Are pass/fail courses calculated in my GPA?</h4>
+					<p class="text-xs leading-relaxed">
+						No. Pass/fail classes do not carry point equivalents on a 4.0 scale. They are excluded from GPA averages.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Is my data secure?</h4>
+					<p class="text-xs leading-relaxed">
+						Yes. Calculations are computed 100% locally in your web browser. No course details, credits, or grade histories are sent to external databases.
+					</p>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- JSON-LD FAQ Schema for Search Engines -->
+	<script type="application/ld+json" slot="seo-content">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{
+					"@type": "Question",
+					"name": "What is a credit hour?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "A credit hour represents the academic weight or workload of a course. A standard lecture class is normally worth 3 credits, while labs and intensive math/science classes usually carry 4 credits."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "How does a failing grade impact my GPA?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "An 'F' grade contributes 0.0 grade points, but the credit hours are still factored into the denominator. This significantly pulls down your total average."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Are pass/fail courses calculated in my GPA?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "No. Pass/fail classes do not carry point equivalents on a 4.0 scale. They are excluded from GPA averages."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Is my data secure?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Yes. Calculations are computed 100% locally in your web browser. No course details, credits, or grade histories are sent to external databases."
+					}
+				}
+			]
+		}
+	</script>
+</DashboardLayout>
+
+<script>
+	function initGpaCalculator() {
+		const tableBody = document.getElementById('gpa-table-body');
+		const btnAddCourse = document.getElementById('btn-add-course');
+		const gpaOutput = document.getElementById('gpa-output');
+		const gpaStanding = document.getElementById('gpa-standing');
+		const totalCreditsOutput = document.getElementById('total-credits-output');
+
+		if (!tableBody || !gpaOutput || !totalCreditsOutput) return;
+
+		// Calculate Semester GPA
+		function calculate() {
+			const rows = tableBody!.querySelectorAll('tr');
+			let totalCredits = 0;
+			let totalGradePoints = 0;
+
+			rows.forEach(row => {
+				const gradeSelect = row.querySelector('.row-grade-val') as HTMLSelectElement;
+				const creditsInput = row.querySelector('.row-credits-val') as HTMLInputElement;
+
+				if (gradeSelect && creditsInput) {
+					const gradePoints = parseFloat(gradeSelect.value);
+					const credits = parseFloat(creditsInput.value);
+
+					if (!isNaN(gradePoints) && !isNaN(credits) && credits > 0) {
+						totalGradePoints += (gradePoints * credits);
+						totalCredits += credits;
+					}
+				}
+			});
+
+			const gpa = totalCredits > 0 ? (totalGradePoints / totalCredits) : 0;
+
+			// Update DOM
+			gpaOutput!.textContent = totalCredits > 0 ? gpa.toFixed(2) : "0.00";
+			totalCreditsOutput!.textContent = totalCredits.toFixed(1);
+
+			// Academic Standing Note
+			if (totalCredits === 0) {
+				gpaStanding!.textContent = "Enter courses to calculate standing";
+				gpaStanding!.className = "text-xs text-vercel-gray font-mono";
+			} else if (gpa >= 3.80) {
+				gpaStanding!.textContent = "Academic Standing: Summa Cum Laude / High Honors";
+				gpaStanding!.className = "text-xs text-emerald-400 font-mono";
+			} else if (gpa >= 3.50) {
+				gpaStanding!.textContent = "Academic Standing: Dean's List / Honors";
+				gpaStanding!.className = "text-xs text-blue-400 font-mono";
+			} else if (gpa >= 2.00) {
+				gpaStanding!.textContent = "Academic Standing: Satisfactory Standing";
+				gpaStanding!.className = "text-xs text-vercel-light-gray font-mono";
+			} else {
+				gpaStanding!.textContent = "Academic Standing: Academic Warning (< 2.00)";
+				gpaStanding!.className = "text-xs text-red-400 font-mono";
+			}
+		}
+
+		// Event Delegation for input modifications
+		tableBody.addEventListener('input', calculate);
+		tableBody.addEventListener('change', calculate);
+
+		// Delete Row handler
+		tableBody.addEventListener('click', (e) => {
+			const target = e.target as HTMLElement;
+			const deleteBtn = target.closest('.btn-delete-row');
+			
+			if (deleteBtn) {
+				const row = deleteBtn.closest('tr');
+				if (row) {
+					// Don't delete if it's the last remaining row
+					if (tableBody.querySelectorAll('tr').length > 1) {
+						row.remove();
+						calculate();
+					} else {
+						// Just clear the inputs if it's the last row
+						const textInput = row.querySelector('input[type="text"]') as HTMLInputElement;
+						const creditsInput = row.querySelector('.row-credits-val') as HTMLInputElement;
+						const gradeSelect = row.querySelector('.row-grade-val') as HTMLSelectElement;
+						if (textInput) textInput.value = '';
+						if (creditsInput) creditsInput.value = '';
+						if (gradeSelect) gradeSelect.selectedIndex = 0;
+						calculate();
+					}
+				}
+			}
+		});
+
+		// Add Course Handler
+		btnAddCourse?.addEventListener('click', () => {
+			const tr = document.createElement('tr');
+			tr.className = 'group table-row-item border-t border-vercel-border/50';
+			tr.innerHTML = `
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="text" 
+						placeholder="e.g., Course Name" 
+						class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+					/>
+				</td>
+				<td class="py-3 pr-2 sm:pr-4">
+					<select class="w-full vercel-input row-grade-val py-1 px-1.5 sm:px-2 font-mono bg-black border-vercel-border text-white text-xs sm:text-sm">
+						<option value="4.0" selected>A (4.0)</option>
+						<option value="3.7">A- (3.7)</option>
+						<option value="3.3">B+ (3.3)</option>
+						<option value="3.0">B (3.0)</option>
+						<option value="2.7">B- (2.7)</option>
+						<option value="2.3">C+ (2.3)</option>
+						<option value="2.0">C (2.0)</option>
+						<option value="1.7">C- (1.7)</option>
+						<option value="1.3">D+ (1.3)</option>
+						<option value="1.0">D (1.0)</option>
+						<option value="0.0">F (0.0)</option>
+					</select>
+				</td>
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="number" 
+						placeholder="3" 
+						min="0" 
+						max="20" 
+						step="any"
+						class="w-full vercel-input row-credits-val py-1.5 px-1.5 sm:px-2 text-right"
+					/>
+				</td>
+				<td class="py-3 text-right">
+					<button 
+						class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+						aria-label="Delete course row"
+					>
+						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+						</svg>
+					</button>
+				</td>
+			`;
+			tableBody.appendChild(tr);
+			// Focus the name input
+			const nameInput = tr.querySelector('input[type="text"]') as HTMLInputElement;
+			nameInput?.focus();
+		});
+
+		// Initial calculation
+		calculate();
+	}
+
+	initGpaCalculator();
+	document.addEventListener('astro:page-load', initGpaCalculator);
+</script>

@@ -1,0 +1,412 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+
+// SEO details for the CGPA to Percentage page
+const title = "CGPA to Percentage Converter | Fast & Accurate - GradeCalcu";
+const description = "Convert your Cumulative Grade Point Average (CGPA) to an overall percentage score instantly. Supports standard 10.0 CBSE (x9.5) and linear scaling methods.";
+const keywords = "cgpa to percentage, convert cgpa to percentage, cbse cgpa to percentage, cgpa conversion, 10 point cgpa scale";
+const canonicalUrl = "https://gradecalcu.com/converters/cgpa-to-percentage/";
+---
+
+<DashboardLayout 
+	title={title} 
+	description={description} 
+	keywords={keywords} 
+	canonicalUrl={canonicalUrl}
+	activeTab="percentage-to-cgpa"
+>
+	<!-- Breadcrumb Navigation -->
+	<nav class="flex items-center gap-2 text-xs font-mono text-vercel-gray mb-6">
+		<a href="/" class="hover:text-white transition-colors">home</a>
+		<span>/</span>
+		<a href="/converters/" class="hover:text-white transition-colors">converters</a>
+		<span>/</span>
+		<span class="text-vercel-light-gray">cgpa to percentage</span>
+	</nav>
+
+	<div class="flex flex-col lg:flex-row gap-8 items-start">
+		<!-- Calculator Inputs Matrix -->
+		<div class="w-full lg:w-3/5 flex flex-col gap-6">
+			<div class="vercel-card p-4 sm:p-6 flex flex-col gap-5">
+				<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+					<div class="flex flex-col gap-1">
+						<h2 class="text-xl font-bold tracking-tight text-white">Conversion Config</h2>
+						<p class="text-xs text-vercel-light-gray">Select your institutional grading standard and enter your CGPA.</p>
+					</div>
+					
+					<!-- Formula Toggle Switcher -->
+					<div class="flex bg-black border border-vercel-border p-1 rounded self-start sm:self-auto" role="radiogroup" aria-label="Conversion formula selection">
+						<button 
+							id="formula-cbse" 
+							type="button"
+							class="px-3 py-1.5 text-xs font-semibold rounded bg-white text-black transition-all cursor-pointer"
+							role="radio"
+							aria-checked="true"
+						>
+							CBSE (x9.5)
+						</button>
+						<button 
+							id="formula-linear" 
+							type="button"
+							class="px-3 py-1.5 text-xs font-semibold rounded text-vercel-gray hover:text-white transition-all cursor-pointer"
+							role="radio"
+							aria-checked="false"
+						>
+							Linear Scale
+						</button>
+					</div>
+				</div>
+
+				<div class="flex flex-col gap-4">
+					<!-- Max Scale Selection (Hidden by default, shown only for Linear Scale) -->
+					<div id="max-scale-container" class="hidden flex-col gap-1.5">
+						<label class="text-xs font-mono uppercase tracking-wider text-vercel-gray" for="select-max-scale">
+							Maximum Scale Range
+						</label>
+						<select id="select-max-scale" class="w-full vercel-input bg-black border-vercel-border text-white text-xs sm:text-sm">
+							<option value="10.0" selected>10.0 Scale (e.g. VTU, SPPU, IIT)</option>
+							<option value="4.0">4.0 Scale (e.g. US Colleges / High Schools)</option>
+						</select>
+					</div>
+
+					<!-- CGPA Input -->
+					<div class="flex flex-col gap-1.5">
+						<label class="text-xs font-mono uppercase tracking-wider text-vercel-gray" for="input-cgpa">
+							Your Cumulative CGPA
+						</label>
+						<div class="relative">
+							<input 
+								type="number" 
+								id="input-cgpa" 
+								placeholder="e.g. 9.0" 
+								min="0" max="10" step="any"
+								value="9.0"
+								class="w-full vercel-input pr-8"
+							/>
+							<span id="cgpa-scale-indicator" class="absolute right-3 top-2.5 text-sm font-mono text-vercel-gray pointer-events-none">/ 10.0</span>
+						</div>
+					</div>
+				</div>
+
+				<!-- Warning Banner -->
+				<div 
+					id="cgpa-warning" 
+					class="hidden text-red-400 bg-red-950/30 font-mono text-xs border border-red-900/40 p-3 rounded transition-all duration-200"
+					role="alert"
+				>
+					Warning: Inputted CGPA exceeds selected maximum scale limit!
+				</div>
+			</div>
+		</div>
+
+		<!-- Output Analytics Panel -->
+		<div class="w-full lg:w-2/5 flex flex-col gap-6">
+			<!-- Live Summary Metrics Card -->
+			<div class="vercel-card p-4 sm:p-6 flex flex-col gap-5">
+				<h2 class="text-xs uppercase font-mono tracking-widest text-vercel-gray">Conversion Output</h2>
+				
+				<div class="flex flex-col gap-4">
+					<!-- Computed Percentage -->
+					<div class="flex flex-col gap-1">
+						<span class="text-xs text-vercel-light-gray font-medium">Equivalent Percentage</span>
+						<div class="flex items-baseline gap-1">
+							<span id="percentage-output" class="text-4xl md:text-5xl font-mono font-bold tracking-tight text-white">85.50</span>
+							<span class="text-xl font-mono text-vercel-gray">%</span>
+						</div>
+						<span id="standing-output" class="text-[10px] text-vercel-gray font-mono mt-1">Class Division: First Class with Distinction</span>
+					</div>
+					
+					<!-- Divider -->
+					<div class="h-px bg-vercel-border"></div>
+
+					<!-- Method Summary -->
+					<div class="flex flex-col gap-0.5">
+						<span class="text-[11px] text-vercel-light-gray font-medium">Applied Formula</span>
+						<span id="formula-output" class="text-xs font-mono font-semibold text-white mt-0.5">Percentage = CGPA &times; 9.5</span>
+					</div>
+				</div>
+			</div>
+
+			<!-- Quick Info Card -->
+			<div class="vercel-card p-4 sm:p-6 border border-vercel-border flex flex-col gap-2">
+				<h3 class="text-xs uppercase font-mono tracking-wider text-vercel-gray">Conversion Standard Reference</h3>
+				<p class="text-xs text-vercel-light-gray leading-relaxed">
+					The <strong>CBSE standard</strong> multiplies your 10-point CGPA by 9.5 to compute the overall percentage. The <strong>Standard Linear scale</strong> scales the average directly out of your maximum grade limit (e.g., $CGPA / 4.0 \times 100$).
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Programmatic SEO Below-the-fold Content -->
+	<div slot="seo-content" class="prose prose-invert max-w-none flex flex-col gap-8 text-vercel-light-gray">
+		<section class="flex flex-col gap-4">
+			<h2 class="text-2xl font-bold tracking-tight text-white">Understanding CGPA to Percentage Conversion Methods</h2>
+			<p class="text-sm leading-relaxed">
+				Translating Cumulative Grade Point Average (CGPA) scores into equivalent marks percentages is crucial for students applying to higher education programs or submitting employment applications that require standardized percentage markings. Depending on your educational board, the mathematical formula utilized changes.
+			</p>
+		</section>
+
+		<section class="flex flex-col gap-6">
+			<!-- CBSE Formula -->
+			<div class="flex flex-col gap-3">
+				<h3 class="text-lg font-bold text-white tracking-tight">1. CBSE 10.0 Scale Multiplier (x9.5)</h3>
+				<p class="text-sm leading-relaxed">
+					The Central Board of Secondary Education (CBSE) mandates a standardized conversion factor of **9.5** to calculate overall percentage marks from a 10-point CGPA. This factor was derived by comparing the average marks scored by candidates in the top percentiles.
+				</p>
+				
+				<div class="bg-black/50 border border-vercel-border p-5 rounded font-mono text-xs flex flex-col gap-3 my-2 text-center text-white overflow-x-auto scrollbar-none">
+					{"$$Percentage = CGPA \\times 9.5$$"}
+				</div>
+
+				<h4 class="text-xs font-bold uppercase tracking-wider text-white mt-2">Example Calculation:</h4>
+				<p class="text-sm leading-relaxed">
+					If you earned a CGPA score of <strong>9.0</strong> on the CBSE 10.0 scale:
+				</p>
+				<div class="bg-vercel-card border border-vercel-border p-4 rounded font-mono text-xs leading-relaxed">
+					Percentage = 9.0 &times; 9.5 = <strong class="text-white">85.50%</strong>
+				</div>
+			</div>
+
+			<!-- Linear Scale Formula -->
+			<div class="flex flex-col gap-3 border-t border-vercel-border/50 pt-6">
+				<h3 class="text-lg font-bold text-white tracking-tight">2. Standard Linear Scaling Formula</h3>
+				<p class="text-sm leading-relaxed">
+					For standard university systems (such as VTU, SPPU, or US college GPA scales), conversion is done through a direct linear ratio comparing your obtained CGPA to the maximum grade limit.
+				</p>
+				
+				<div class="bg-black/50 border border-vercel-border p-5 rounded font-mono text-xs flex flex-col gap-3 my-2 text-center text-white overflow-x-auto scrollbar-none">
+					{"$$Percentage = \\left( \\frac{CGPA}{Maximum\\,Scale} \\right) \\times 100$$"}
+				</div>
+
+				<h4 class="text-xs font-bold uppercase tracking-wider text-white mt-2">Example Calculation (10.0 Scale):</h4>
+				<p class="text-sm leading-relaxed">
+					If a student earns an <strong>8.50 CGPA</strong> on a standard 10-point scale:
+				</p>
+				<div class="bg-vercel-card border border-vercel-border p-4 rounded font-mono text-xs leading-relaxed">
+					Percentage = (8.50 / 10.0) &times; 100 = 85.00%
+				</div>
+
+				<h4 class="text-xs font-bold uppercase tracking-wider text-white mt-2">Example Calculation (4.0 Scale):</h4>
+				<p class="text-sm leading-relaxed">
+					If a student earns a <strong>3.60 GPA</strong> on a standard 4-point scale:
+				</p>
+				<div class="bg-vercel-card border border-vercel-border p-4 rounded font-mono text-xs leading-relaxed">
+					Percentage = (3.60 / 4.0) &times; 100 = 90.00%
+				</div>
+			</div>
+		</section>
+
+		<!-- Crawlable FAQ Schema -->
+		<section class="border-t border-vercel-border/50 pt-8 flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Frequently Asked Questions (FAQ)</h3>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Why does CBSE multiply CGPA by 9.5?</h4>
+					<p class="text-xs leading-relaxed">
+						CBSE uses the 9.5 factor because it represents the average of board marks distributions from past results, establishing a fair parity between point scores and percentages.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">What is the formula for standard linear university conversion?</h4>
+					<p class="text-xs leading-relaxed">
+						Standard linear conversions divide the earned CGPA by the maximum scale value (usually 10.0 or 4.0) and multiply by 100 to map it directly to a percentage.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Can I convert a 4.0 scale GPA directly?</h4>
+					<p class="text-xs leading-relaxed">
+						Yes. Under the Linear Scale setting, select the "4.0 Scale" option to map your GPA correctly to the 0-100% distribution.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Are my scores transmitted to a server?</h4>
+					<p class="text-xs leading-relaxed">
+						No. Your inputs are calculated locally using JavaScript in your browser client thread, ensuring 100% data security.
+					</p>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- JSON-LD FAQ Schema for Search Engines -->
+	<script type="application/ld+json" slot="seo-content">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{
+					"@type": "Question",
+					"name": "Why does CBSE multiply CGPA by 9.5?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "CBSE uses the 9.5 factor because it represents the average of board marks distributions from past results, establishing a fair parity between point scores and percentages."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "What is the formula for standard linear university conversion?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Standard linear conversions divide the earned CGPA by the maximum scale value (usually 10.0 or 4.0) and multiply by 100 to map it directly to a percentage."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Can I convert a 4.0 scale GPA directly?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Yes. Under the Linear Scale setting, select the '4.0 Scale' option to map your GPA correctly to the 0-100% distribution."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Are my scores transmitted to a server?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "No. Your inputs are calculated locally using JavaScript in your browser client thread, ensuring 100% data security."
+					}
+				}
+			]
+		}
+	</script>
+</DashboardLayout>
+
+<script>
+	function initCgpaConverter() {
+		// Switches
+		const btnCbse = document.getElementById('formula-cbse');
+		const btnLinear = document.getElementById('formula-linear');
+		const maxScaleContainer = document.getElementById('max-scale-container');
+		const selectMaxScale = document.getElementById('select-max-scale') as HTMLSelectElement;
+
+		// Inputs
+		const cgpaInput = document.getElementById('input-cgpa') as HTMLInputElement;
+		const scaleIndicator = document.getElementById('cgpa-scale-indicator');
+		const warningBanner = document.getElementById('cgpa-warning');
+
+		// Outputs
+		const pctOutput = document.getElementById('percentage-output');
+		const standingOutput = document.getElementById('standing-output');
+		const formulaOutput = document.getElementById('formula-output');
+		const outputCard = pctOutput?.closest('.vercel-card');
+
+		if (!cgpaInput || !pctOutput || !standingOutput || !formulaOutput) return;
+
+		let currentFormula = 'cbse'; // 'cbse' or 'linear'
+
+		// Switch formula handlers
+		btnCbse?.addEventListener('click', () => {
+			if (currentFormula === 'cbse') return;
+			currentFormula = 'cbse';
+
+			btnCbse.classList.add('bg-white', 'text-black');
+			btnCbse.classList.remove('text-vercel-gray', 'hover:text-white');
+			btnCbse.setAttribute('aria-checked', 'true');
+
+			btnLinear?.classList.remove('bg-white', 'text-black');
+			btnLinear?.classList.add('text-vercel-gray', 'hover:text-white');
+			btnLinear?.setAttribute('aria-checked', 'false');
+
+			maxScaleContainer?.classList.add('hidden');
+			if (scaleIndicator) scaleIndicator.textContent = '/ 10.0';
+			
+			// Adjust input boundaries
+			cgpaInput.max = '10';
+			if (parseFloat(cgpaInput.value) > 10) cgpaInput.value = '10';
+			
+			calculate();
+		});
+
+		btnLinear?.addEventListener('click', () => {
+			if (currentFormula === 'linear') return;
+			currentFormula = 'linear';
+
+			btnLinear.classList.add('bg-white', 'text-black');
+			btnLinear.classList.remove('text-vercel-gray', 'hover:text-white');
+			btnLinear.setAttribute('aria-checked', 'true');
+
+			btnCbse?.classList.remove('bg-white', 'text-black');
+			btnCbse?.classList.add('text-vercel-gray', 'hover:text-white');
+			btnCbse?.setAttribute('aria-checked', 'false');
+
+			maxScaleContainer?.classList.remove('hidden');
+			updateScaleIndicator();
+			calculate();
+		});
+
+		selectMaxScale?.addEventListener('change', () => {
+			updateScaleIndicator();
+			calculate();
+		});
+
+		function updateScaleIndicator() {
+			const maxVal = selectMaxScale.value;
+			if (scaleIndicator) scaleIndicator.textContent = `/ ${maxVal}`;
+			cgpaInput.max = maxVal;
+			
+			const currentVal = parseFloat(cgpaInput.value);
+			const maxLimit = parseFloat(maxVal);
+			if (!isNaN(currentVal) && currentVal > maxLimit) {
+				cgpaInput.value = maxVal;
+			}
+		}
+
+		// Division class mapper
+		function getIndianDivision(pct: number): string {
+			if (pct >= 75) return 'Class Division: First Class with Distinction';
+			if (pct >= 60) return 'Class Division: First Division / First Class';
+			if (pct >= 50) return 'Class Division: Second Division';
+			if (pct >= 40) return 'Class Division: Pass Division';
+			return 'Class Division: Fail / Repeat';
+		}
+
+		// Calculation engine
+		function calculate() {
+			const cgpa = parseFloat(cgpaInput.value);
+			let maxLimit = 10.0;
+
+			if (currentFormula === 'linear' && selectMaxScale) {
+				maxLimit = parseFloat(selectMaxScale.value);
+			}
+
+			// Validate inputs
+			if (isNaN(cgpa) || cgpa < 0) {
+				pctOutput!.textContent = "0.00";
+				standingOutput!.textContent = "Please enter a valid CGPA score.";
+				standingOutput!.className = "text-[10px] text-vercel-gray font-mono mt-1";
+				warningBanner?.classList.add('hidden');
+				return;
+			}
+
+			// Out of bounds check
+			if (cgpa > maxLimit) {
+				warningBanner?.classList.remove('hidden');
+			} else {
+				warningBanner?.classList.add('hidden');
+			}
+
+			let percentage = 0;
+			if (currentFormula === 'cbse') {
+				percentage = Math.min(100.0, cgpa * 9.5);
+				formulaOutput!.innerHTML = `Percentage = CGPA &times; 9.5 <span class="text-vercel-gray font-mono">(9.5 Multiplier)</span>`;
+			} else {
+				percentage = Math.min(100.0, (cgpa / maxLimit) * 100);
+				formulaOutput!.innerHTML = `Percentage = (CGPA / ${maxLimit}) &times; 100 <span class="text-vercel-gray font-mono">(Linear Scaling)</span>`;
+			}
+
+			// Update output indicators
+			pctOutput!.textContent = percentage.toFixed(2);
+			standingOutput!.textContent = getIndianDivision(percentage);
+			standingOutput!.className = "text-[10px] text-vercel-light-gray font-mono mt-1";
+		}
+
+		cgpaInput.addEventListener('input', calculate);
+
+		// Trigger initial calculation
+		calculate();
+	}
+
+	initCgpaConverter();
+	document.addEventListener('astro:page-load', initCgpaConverter);
+</script>

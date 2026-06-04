@@ -10,6 +10,28 @@ interface Props {
 }
 
 const { title, description, keywords, canonicalUrl, activeTab = 'none' } = Astro.props;
+
+// Navigation links for silo routing
+const navLinks = [
+  { name: "Grade Calculators", href: "/calculators/", key: "calculators" },
+  { name: "GPA Hub", href: "/gpa/", key: "cgpa" },
+  { name: "Converters", href: "/converters/", key: "percentage-to-cgpa" }
+];
+
+// Robust active highlighting check
+const isActive = (href: string, key: string) => {
+  const path = Astro.url.pathname;
+  if (key === 'calculators') {
+    return activeTab === 'weighted' || activeTab === 'semester' || path.startsWith('/calculators') || path === '/' || path.startsWith('/weighted') || path.startsWith('/semester-grade');
+  }
+  if (key === 'cgpa') {
+    return activeTab === 'cgpa' || path.startsWith('/gpa') || path.startsWith('/gpa-cgpa-hub');
+  }
+  if (key === 'percentage-to-cgpa') {
+    return activeTab === 'percentage-to-cgpa' || path.startsWith('/converters') || path.startsWith('/in/');
+  }
+  return false;
+};
 ---
 
 <Layout title={title} description={description} keywords={keywords} canonicalUrl={canonicalUrl}>
@@ -50,7 +72,7 @@ const { title, description, keywords, canonicalUrl, activeTab = 'none' } = Astro
 			<!-- Title Section -->
 			<div class="flex flex-col gap-2">
 				<h1 class="text-3xl md:text-5xl font-extrabold tracking-tighter text-white">
-					Professional Grade Hub
+					Professional Grade Calculator
 				</h1>
 				<p class="text-sm md:text-base text-vercel-light-gray max-w-2xl">
 					Compute your academic performance instantly. Local processing protects your privacy and guarantees zero delay.
@@ -60,57 +82,19 @@ const { title, description, keywords, canonicalUrl, activeTab = 'none' } = Astro
 			<!-- Tab Navigation -->
 			<div class="border-b border-vercel-border flex overflow-x-auto whitespace-nowrap scrollbar-none">
 				<nav class="flex gap-4 sm:gap-8 min-w-max pb-0" aria-label="Calculator Tabs">
-					<!-- Tab 1: Weighted Grade -->
-					<a
-						id="tab-weighted"
-						href="/weighted"
-						class={`pb-3 text-sm font-medium border-b-2 whitespace-nowrap transition-all duration-200 ${
-							activeTab === 'weighted'
-								? 'border-white text-white font-semibold active-tab'
-								: 'border-transparent text-vercel-gray hover:text-white'
-						}`}
-					>
-						Weighted Grade
-					</a>
-
-					<!-- Tab 2: Semester Grade -->
-					<a
-						id="tab-semester"
-						href="/semester-grade"
-						class={`pb-3 text-sm font-medium border-b-2 whitespace-nowrap transition-all duration-200 ${
-							activeTab === 'semester'
-								? 'border-white text-white font-semibold active-tab'
-								: 'border-transparent text-vercel-gray hover:text-white'
-						}`}
-					>
-						Semester Grade
-					</a>
-
-					<!-- Tab 3: GPA & CGPA Hub -->
-					<a
-						id="tab-cgpa"
-						href="/gpa-cgpa-hub"
-						class={`pb-3 text-sm font-medium border-b-2 whitespace-nowrap transition-all duration-200 ${
-							activeTab === 'cgpa'
-								? 'border-white text-white font-semibold active-tab'
-								: 'border-transparent text-vercel-gray hover:text-white'
-						}`}
-					>
-						GPA & CGPA Hub
-					</a>
-
-					<!-- Tab 4: Percentage to CGPA -->
-					<a
-						id="tab-percentage-to-cgpa"
-						href="/in/percentage-to-cgpa/"
-						class={`pb-3 text-sm font-medium border-b-2 whitespace-nowrap transition-all duration-200 ${
-							activeTab === 'percentage-to-cgpa'
-								? 'border-white text-white font-semibold active-tab'
-								: 'border-transparent text-vercel-gray hover:text-white'
-						}`}
-					>
-						CGPA to %
-					</a>
+					{navLinks.map((link) => (
+						<a
+							id={`tab-${link.key}`}
+							href={link.href}
+							class={`pb-3 text-sm font-medium border-b-2 whitespace-nowrap transition-all duration-200 ${
+								isActive(link.href, link.key)
+									? 'border-white text-white font-semibold active-tab'
+									: 'border-transparent text-vercel-gray hover:text-white'
+							}`}
+						>
+							{link.name}
+						</a>
+					))}
 				</nav>
 			</div>
 		</div>
@@ -135,10 +119,9 @@ const { title, description, keywords, canonicalUrl, activeTab = 'none' } = Astro
 			</div>
 			
 			<div class="flex items-center gap-6 flex-wrap justify-center md:justify-end">
-				<a href="/weighted" class="hover:text-white transition-colors">Weighted Grade</a>
-				<a href="/semester-grade" class="hover:text-white transition-colors">Semester Grade</a>
-				<a href="/gpa-cgpa-hub" class="hover:text-white transition-colors">GPA & CGPA Hub</a>
-				<a href="/in/percentage-to-cgpa" class="hover:text-white transition-colors">Percentage to CGPA</a>
+				{navLinks.map((link) => (
+					<a href={link.href} class="hover:text-white transition-colors">{link.name}</a>
+				))}
 			</div>
 		</div>
 	</footer>

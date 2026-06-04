@@ -1,0 +1,7 @@
+# Old root paths to optimized nested directory structures (301 Permanent Redirects)
+/weighted         /calculators/weighted-grade/ 301
+/semester-grade   /calculators/semester-grade/ 301
+/gpa-cgpa-hub     /gpa/cgpa-calculator/ 301
+/in/percentage-to-cgpa /converters/percentage-to-cgpa/ 301
+
+

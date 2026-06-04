@@ -1,0 +1,596 @@
+---
+import DashboardLayout from '../../layouts/DashboardLayout.astro';
+
+// SEO details for the Grade Average Calculator page
+const title = "Grade Average Calculator | Simple Percentage & Points Averager - GradeCalcu";
+const description = "Calculate the simple average of your assignments, test scores, or percentages. Easily add rows to compute arithmetic means instantly.";
+const keywords = "grade average calculator, average grade calculator, percentage averager, test score average, points average calculator";
+const canonicalUrl = "https://gradecalcu.com/calculators/grade-average/";
+---
+
+<DashboardLayout 
+	title={title} 
+	description={description} 
+	keywords={keywords} 
+	canonicalUrl={canonicalUrl}
+	activeTab="none"
+>
+	<!-- Breadcrumb Navigation for Silo Structure -->
+	<nav class="flex items-center gap-2 text-xs font-mono text-vercel-gray mb-6">
+		<a href="/" class="hover:text-white transition-colors">home</a>
+		<span>/</span>
+		<a href="/calculators/" class="hover:text-white transition-colors">calculators</a>
+		<span>/</span>
+		<span class="text-vercel-light-gray">grade average</span>
+	</nav>
+
+	<div class="flex flex-col lg:flex-row gap-8 items-start">
+		<!-- Calculator Inputs Matrix -->
+		<div class="w-full lg:w-3/5 flex flex-col gap-6">
+			<div class="vercel-card p-4 sm:p-6 flex flex-col gap-5">
+				<div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+					<div class="flex flex-col gap-1">
+						<h2 class="text-xl font-bold tracking-tight text-white">Grades Matrix</h2>
+						<p class="text-xs text-vercel-light-gray">Enter your individual scores to find the arithmetic average.</p>
+					</div>
+					
+					<!-- Pill Switcher Toggle -->
+					<div class="flex bg-black border border-vercel-border p-1 rounded self-start sm:self-auto" role="radiogroup" aria-label="Averaging mode selection">
+						<button 
+							id="mode-percentage" 
+							type="button"
+							class="px-3 py-1.5 text-xs font-semibold rounded bg-white text-black transition-all cursor-pointer"
+							role="radio"
+							aria-checked="true"
+						>
+							Percentages (%)
+						</button>
+						<button 
+							id="mode-points" 
+							type="button"
+							class="px-3 py-1.5 text-xs font-semibold rounded text-vercel-gray hover:text-white transition-all cursor-pointer"
+							role="radio"
+							aria-checked="false"
+						>
+							Points (X / Y)
+						</button>
+					</div>
+				</div>
+
+				<!-- Matrix Table -->
+				<div class="overflow-x-auto scrollbar-none">
+					<table class="w-full text-left border-collapse">
+						<thead>
+							<tr class="border-b border-vercel-border text-xs text-vercel-gray uppercase font-mono tracking-wider">
+								<th class="pb-3 font-medium">Assignment/Exam Name</th>
+								<th id="header-score" class="pb-3 font-medium w-28 sm:w-36 text-right">Grade (%)</th>
+								<th id="header-possible" class="pb-3 font-medium w-28 sm:w-36 text-right hidden">Out Of</th>
+								<th class="pb-3 w-8 sm:w-12"></th>
+							</tr>
+						</thead>
+						<tbody id="average-table-body" class="divide-y divide-vercel-border/50">
+							<!-- Row 1 -->
+							<tr class="group table-row-item">
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="text" 
+										placeholder="e.g., Assignment 1" 
+										class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+										value="Assignment 1"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="number" 
+										placeholder="90" 
+										min="0" 
+										max="200" 
+										step="any"
+										class="w-full vercel-input row-score py-1.5 px-1.5 sm:px-2 text-right"
+										value="90"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4 col-possible hidden">
+									<input 
+										type="number" 
+										placeholder="100" 
+										min="0.1" 
+										max="1000" 
+										step="any"
+										class="w-full vercel-input row-possible py-1.5 px-1.5 sm:px-2 text-right"
+										value="100"
+									/>
+								</td>
+								<td class="py-3 text-right">
+									<button 
+										class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+										aria-label="Delete grade row"
+									>
+										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+										</svg>
+									</button>
+								</td>
+							</tr>
+							<!-- Row 2 -->
+							<tr class="group table-row-item">
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="text" 
+										placeholder="e.g., Assignment 2" 
+										class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+										value="Assignment 2"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4">
+									<input 
+										type="number" 
+										placeholder="80" 
+										min="0" 
+										max="200" 
+										step="any"
+										class="w-full vercel-input row-score py-1.5 px-1.5 sm:px-2 text-right"
+										value="80"
+									/>
+								</td>
+								<td class="py-3 pr-2 sm:pr-4 col-possible hidden">
+									<input 
+										type="number" 
+										placeholder="100" 
+										min="0.1" 
+										max="1000" 
+										step="any"
+										class="w-full vercel-input row-possible py-1.5 px-1.5 sm:px-2 text-right"
+										value="100"
+									/>
+								</td>
+								<td class="py-3 text-right">
+									<button 
+										class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+										aria-label="Delete grade row"
+									>
+										<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+											<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+										</svg>
+									</button>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<div class="flex items-center justify-between border-t border-vercel-border/50 pt-4 mt-2">
+					<button 
+						id="btn-add-row" 
+						class="vercel-button-secondary text-xs flex items-center gap-1.5 py-1.5 px-3"
+						type="button"
+					>
+						<svg class="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+						</svg>
+						Add Row
+					</button>
+					<button 
+						id="btn-clear-all" 
+						class="vercel-button-secondary text-xs flex items-center gap-1.5 py-1.5 px-3 text-vercel-gray hover:text-red-400 hover:border-red-950/50"
+						type="button"
+					>
+						Clear All
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<!-- Output Analytics Panel -->
+		<div class="w-full lg:w-2/5 flex flex-col gap-6">
+			<!-- Live Summary Metrics Card -->
+			<div class="vercel-card p-4 sm:p-6 flex flex-col gap-5">
+				<h2 class="text-xs uppercase font-mono tracking-widest text-vercel-gray">Live Average</h2>
+				
+				<div class="flex flex-col gap-4">
+					<!-- Computed Average -->
+					<div class="flex flex-col gap-1">
+						<span class="text-xs text-vercel-light-gray font-medium">Computed Average</span>
+						<div class="flex items-baseline gap-2">
+							<span id="average-output" class="text-4xl md:text-5xl font-mono font-bold tracking-tighter text-white">85.00</span>
+							<span class="text-xl font-mono text-vercel-gray">%</span>
+						</div>
+						<span id="average-letter" class="text-sm font-semibold text-white/90 font-mono">Letter Grade: B</span>
+					</div>
+					
+					<!-- Divider -->
+					<div class="h-px bg-vercel-border"></div>
+
+					<!-- Distribution Details -->
+					<div class="grid grid-cols-2 gap-4">
+						<div class="flex flex-col gap-0.5">
+							<span id="metric-left-label" class="text-[11px] text-vercel-light-gray font-medium">Total Entries</span>
+							<span id="metric-left-val" class="text-lg font-mono font-semibold text-white">2</span>
+						</div>
+						<div id="metric-right-col" class="flex flex-col gap-0.5 hidden">
+							<span id="metric-right-label" class="text-[11px] text-vercel-light-gray font-medium">Total Points</span>
+							<span id="metric-right-val" class="text-xs font-mono font-semibold text-white mt-1">170.0 / 200.0</span>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Guidelines Card -->
+			<div class="vercel-card p-4 sm:p-6 border border-vercel-border flex flex-col gap-2">
+				<h3 class="text-xs uppercase font-mono tracking-wider text-vercel-gray">Quick Help</h3>
+				<p class="text-xs text-vercel-light-gray leading-relaxed">
+					Toggle between <strong>Percentages</strong> (for basic grading points out of 100) and <strong>Points</strong> (to calculate fractional values like 18/20). Blank lines are ignored automatically.
+				</p>
+			</div>
+		</div>
+	</div>
+
+	<!-- Programmatic SEO Below-the-fold Content -->
+	<div slot="seo-content" class="prose prose-invert max-w-none flex flex-col gap-8 text-vercel-light-gray">
+		<section class="flex flex-col gap-4">
+			<h2 class="text-2xl font-bold tracking-tight text-white">How to Calculate a Simple Grade Average</h2>
+			<p class="text-sm leading-relaxed">
+				A simple grade average is determined by taking the sum of all your assignment marks and dividing by the total count of assignments. This is known as the **arithmetic mean**, where every single assignment carries the same weight.
+			</p>
+			
+			<div class="bg-black/50 border border-vercel-border p-5 rounded font-mono text-xs flex flex-col gap-3 my-2 text-center text-white overflow-x-auto scrollbar-none">
+				<div class="text-white font-bold border-b border-vercel-border pb-2 mb-2">
+					ARITHMETIC MEAN FORMULA
+				</div>
+				{"$$Average\\,Grade = \\frac{\\sum Grades}{Total\\,Number\\,of\\,Assignments}$$"}
+			</div>
+		</section>
+
+		<section class="flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Step-by-Step Examples</h3>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6 mt-2">
+				<div class="flex flex-col gap-2 bg-vercel-card border border-vercel-border p-5 rounded">
+					<h4 class="text-sm font-semibold text-white">1. Calculating in Percentage Mode</h4>
+					<p class="text-xs leading-relaxed">
+						Suppose you have three quiz scores: <strong>90%</strong>, <strong>80%</strong>, and <strong>95%</strong>.
+					</p>
+					<div class="bg-black/40 border border-vercel-border/50 p-3 rounded font-mono text-xs mt-1 leading-relaxed">
+						Sum = 90 + 80 + 95 = 265 <br />
+						Count = 3 <br />
+						Average = 265 / 3 = <strong class="text-white">88.33%</strong>
+					</div>
+				</div>
+
+				<div class="flex flex-col gap-2 bg-vercel-card border border-vercel-border p-5 rounded">
+					<h4 class="text-sm font-semibold text-white">2. Calculating in Points Mode</h4>
+					<p class="text-xs leading-relaxed">
+						Suppose you have two test scores: <strong>18/20</strong> and <strong>45/50</strong>.
+					</p>
+					<div class="bg-black/40 border border-vercel-border/50 p-3 rounded font-mono text-xs mt-1 leading-relaxed">
+						Sum of Earned Points = 18 + 45 = 63 <br />
+						Sum of Possible Points = 20 + 50 = 70 <br />
+						Average = (63 / 70) &times; 100 = <strong class="text-white">90.00%</strong>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Crawlable FAQ Schema -->
+		<section class="border-t border-vercel-border/50 pt-8 flex flex-col gap-4">
+			<h3 class="text-lg font-bold text-white tracking-tight">Frequently Asked Questions (FAQ)</h3>
+			
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">What is the difference between points mode and percentage mode?</h4>
+					<p class="text-xs leading-relaxed">
+						Percentage mode computes a simple average of percentages directly (treating all entries as having equal weight). Points mode aggregates the total points earned divided by the total possible points (weighting assignments based on their point value).
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">How are blank inputs handled?</h4>
+					<p class="text-xs leading-relaxed">
+						The calculation engine automatically ignores empty rows, preventing them from dragging down your overall average or skewing the divisor.
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Can I calculate extra credit?</h4>
+					<p class="text-xs leading-relaxed">
+						Yes. In percentage mode, you can type values over 100. In points mode, you can enter earned scores higher than the total possible points (e.g., 22 out of 20 possible).
+					</p>
+				</div>
+				<div class="flex flex-col gap-1.5">
+					<h4 class="text-sm font-semibold text-white">Where is my grade data saved?</h4>
+					<p class="text-xs leading-relaxed">
+						All computations run inside your local browser client thread. No data is ever transmitted to a server, ensuring 100% data privacy.
+					</p>
+				</div>
+			</div>
+		</section>
+	</div>
+
+	<!-- JSON-LD FAQ Schema for Search Engines -->
+	<script type="application/ld+json" slot="seo-content">
+		{
+			"@context": "https://schema.org",
+			"@type": "FAQPage",
+			"mainEntity": [
+				{
+					"@type": "Question",
+					"name": "What is the difference between points mode and percentage mode?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Percentage mode computes a simple average of percentages directly (treating all entries as having equal weight). Points mode aggregates the total points earned divided by the total possible points (weighting assignments based on their point value)."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "How are blank inputs handled?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "The calculation engine automatically ignores empty rows, preventing them from dragging down your overall average or skewing the divisor."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Can I calculate extra credit?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "Yes. In percentage mode, you can type values over 100. In points mode, you can enter earned scores higher than the total possible points."
+					}
+				},
+				{
+					"@type": "Question",
+					"name": "Where is my grade data saved?",
+					"acceptedAnswer": {
+						"@type": "Answer",
+						"text": "All computations run inside your local browser client thread. No data is ever transmitted to a server, ensuring 100% data privacy."
+					}
+				}
+			]
+		}
+	</script>
+</DashboardLayout>
+
+<script>
+	function initAverageCalculator() {
+		// Model switches
+		const btnPercentage = document.getElementById('mode-percentage');
+		const btnPoints = document.getElementById('mode-points');
+
+		// Inputs & Containers
+		const tableBody = document.getElementById('average-table-body');
+		const btnAddRow = document.getElementById('btn-add-row');
+		const btnClearAll = document.getElementById('btn-clear-all');
+		const headerScore = document.getElementById('header-score');
+		const headerPossible = document.getElementById('header-possible');
+
+		// Outputs & Metrics
+		const averageOutput = document.getElementById('average-output');
+		const averageLetter = document.getElementById('average-letter');
+		const metricLeftLabel = document.getElementById('metric-left-label');
+		const metricLeftVal = document.getElementById('metric-left-val');
+		const metricRightCol = document.getElementById('metric-right-col');
+		const metricRightLabel = document.getElementById('metric-right-label');
+		const metricRightVal = document.getElementById('metric-right-val');
+
+		if (!tableBody || !btnAddRow || !averageOutput || !averageLetter || !metricLeftVal) return;
+
+		let currentMode = 'percentage'; // 'percentage' or 'points'
+
+		// Switch Mode Click Handlers
+		btnPercentage?.addEventListener('click', () => {
+			if (currentMode === 'percentage') return;
+			updateMode('percentage');
+		});
+
+		btnPoints?.addEventListener('click', () => {
+			if (currentMode === 'points') return;
+			updateMode('points');
+		});
+
+		function updateMode(mode: 'percentage' | 'points') {
+			currentMode = mode;
+			
+			if (mode === 'percentage') {
+				btnPercentage?.classList.add('bg-white', 'text-black');
+				btnPercentage?.classList.remove('text-vercel-gray', 'hover:text-white');
+				btnPercentage?.setAttribute('aria-checked', 'true');
+				
+				btnPoints?.classList.remove('bg-white', 'text-black');
+				btnPoints?.classList.add('text-vercel-gray', 'hover:text-white');
+				btnPoints?.setAttribute('aria-checked', 'false');
+				
+				if (headerScore) {
+					headerScore.textContent = 'Grade (%)';
+					headerScore.className = 'pb-3 font-medium w-28 sm:w-36 text-right';
+				}
+				headerPossible?.classList.add('hidden');
+				metricRightCol?.classList.add('hidden');
+				
+				tableBody?.querySelectorAll('.col-possible').forEach(el => el.classList.add('hidden'));
+			} else {
+				btnPoints?.classList.add('bg-white', 'text-black');
+				btnPoints?.classList.remove('text-vercel-gray', 'hover:text-white');
+				btnPoints?.setAttribute('aria-checked', 'true');
+				
+				btnPercentage?.classList.remove('bg-white', 'text-black');
+				btnPercentage?.classList.add('text-vercel-gray', 'hover:text-white');
+				btnPercentage?.setAttribute('aria-checked', 'false');
+				
+				if (headerScore) {
+					headerScore.textContent = 'Points Earned';
+					headerScore.className = 'pb-3 font-medium w-28 sm:w-36 text-right';
+				}
+				headerPossible?.classList.remove('hidden');
+				metricRightCol?.classList.remove('hidden');
+				
+				tableBody?.querySelectorAll('.col-possible').forEach(el => el.classList.remove('hidden'));
+			}
+			calculate();
+		}
+
+		// Standard Letter Grade Mapper
+		function getLetterGrade(pct: number): string {
+			if (pct >= 93) return 'A';
+			if (pct >= 90) return 'A-';
+			if (pct >= 87) return 'B+';
+			if (pct >= 83) return 'B';
+			if (pct >= 80) return 'B-';
+			if (pct >= 77) return 'C+';
+			if (pct >= 73) return 'C';
+			if (pct >= 70) return 'C-';
+			if (pct >= 67) return 'D+';
+			if (pct >= 60) return 'D';
+			return 'F';
+		}
+
+		// Calculate logic
+		function calculate() {
+			const rows = tableBody!.querySelectorAll('tr');
+			let count = 0;
+			let sumScores = 0;
+			let sumPossibles = 0;
+
+			rows.forEach(row => {
+				const scoreInput = row.querySelector('.row-score') as HTMLInputElement;
+				const possibleInput = row.querySelector('.row-possible') as HTMLInputElement;
+
+				if (scoreInput) {
+					const score = parseFloat(scoreInput.value);
+					if (!isNaN(score)) {
+						if (currentMode === 'percentage') {
+							sumScores += score;
+							count++;
+						} else {
+							// Points mode
+							const possible = possibleInput ? parseFloat(possibleInput.value) : 100;
+							if (!isNaN(possible) && possible > 0) {
+								sumScores += score;
+								sumPossibles += possible;
+								count++;
+							}
+						}
+					}
+				}
+			});
+
+			let average = 0;
+			if (count > 0) {
+				if (currentMode === 'percentage') {
+					average = sumScores / count;
+				} else {
+					average = sumPossibles > 0 ? (sumScores / sumPossibles) * 100 : 0;
+				}
+			}
+
+			// Update output indicators
+			averageOutput!.textContent = count > 0 ? average.toFixed(2) : "0.00";
+			averageLetter!.textContent = `Letter Grade: ${getLetterGrade(average)}`;
+			metricLeftVal!.textContent = count.toString();
+			
+			if (currentMode === 'points' && metricRightVal) {
+				metricRightVal.textContent = `${sumScores.toFixed(1)} / ${sumPossibles.toFixed(1)}`;
+			}
+		}
+
+		// Event Delegation for input modifications
+		tableBody.addEventListener('input', calculate);
+
+		// Delete Row handler
+		tableBody.addEventListener('click', (e) => {
+			const target = e.target as HTMLElement;
+			const deleteBtn = target.closest('.btn-delete-row');
+			
+			if (deleteBtn) {
+				const row = deleteBtn.closest('tr');
+				if (row) {
+					// Don't delete if it's the last remaining row
+					if (tableBody.querySelectorAll('tr').length > 1) {
+						row.remove();
+						calculate();
+					} else {
+						// Just clear the inputs if it's the last row
+						const inputs = row.querySelectorAll('input');
+						inputs.forEach(input => {
+							if (input.type === 'number') {
+								if (input.classList.contains('row-possible')) {
+									input.value = '100';
+								} else {
+									input.value = '';
+								}
+							} else {
+								input.value = '';
+							}
+						});
+						calculate();
+					}
+				}
+			}
+		});
+
+		// Add Row Handler
+		btnAddRow.addEventListener('click', () => {
+			const tr = document.createElement('tr');
+			tr.className = 'group table-row-item border-t border-vercel-border/50';
+			const isPointsHidden = currentMode === 'percentage' ? 'hidden' : '';
+			
+			tr.innerHTML = `
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="text" 
+						placeholder="e.g., Assignment" 
+						class="w-full vercel-input !bg-transparent border-transparent hover:border-vercel-border focus:border-white focus:ring-0 py-1.5 px-1.5 sm:px-2"
+					/>
+				</td>
+				<td class="py-3 pr-2 sm:pr-4">
+					<input 
+						type="number" 
+						placeholder="100" 
+						min="0" 
+						max="200" 
+						step="any"
+						class="w-full vercel-input row-score py-1.5 px-1.5 sm:px-2 text-right"
+					/>
+				</td>
+				<td class="py-3 pr-2 sm:pr-4 col-possible ${isPointsHidden}">
+					<input 
+						type="number" 
+						placeholder="100" 
+						min="0.1" 
+						max="1000" 
+						step="any"
+						class="w-full vercel-input row-possible py-1.5 px-1.5 sm:px-2 text-right"
+						value="100"
+					/>
+				</td>
+				<td class="py-3 text-right">
+					<button 
+						class="btn-delete-row text-vercel-gray hover:text-red-500 transition-colors p-1"
+						aria-label="Delete grade row"
+					>
+						<svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+							<path stroke-linecap="round" stroke-linejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+						</svg>
+					</button>
+				</td>
+			`;
+			tableBody.appendChild(tr);
+			
+			// Focus the name input
+			const nameInput = tr.querySelector('input[type="text"]') as HTMLInputElement;
+			nameInput?.focus();
+		});
+
+		// Clear All Handler
+		btnClearAll?.addEventListener('click', () => {
+			tableBody.innerHTML = '';
+			// Reset calculation
+			calculate();
+			// Pre-add a clean row
+			btnAddRow.click();
+		});
+
+		// Initial calculate execution
+		calculate();
+	}
+
+	// Support page load and View Transitions
+	initAverageCalculator();
+	document.addEventListener('astro:page-load', initAverageCalculator);
+</script>
